@@ -4,16 +4,16 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: #050816;
-  color: #e8eaf6;
+  background: #f7f5f0;
+  color: #111;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
 }
 
 ::-webkit-scrollbar { width: 2px; }
-::-webkit-scrollbar-track { background: #050816; }
-::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 2px; }
-::selection { background: rgba(99,102,241,0.3); }
+::-webkit-scrollbar-track { background: #f7f5f0; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 2px; }
+::selection { background: rgba(99,102,241,0.15); }
 
 /* Orbit */
 @keyframes orbit3d {
@@ -33,41 +33,22 @@ body {
 @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 .ticker-track { animation: ticker 30s linear infinite; }
 
-/* Glow pulse */
-@keyframes glowPulse {
-  0%,100% { opacity:0.6; box-shadow: 0 0 8px rgba(99,102,241,0.4); }
-  50% { opacity:1; box-shadow: 0 0 20px rgba(99,102,241,0.8), 0 0 40px rgba(139,92,246,0.4); }
-}
-.glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
-
-/* Particle float */
-@keyframes particleFloat {
-  0%,100% { transform: translateY(0) translateX(0); opacity:0.4; }
-  33% { transform: translateY(-30px) translateX(10px); opacity:0.8; }
-  66% { transform: translateY(-15px) translateX(-8px); opacity:0.6; }
-}
-
-/* Count up */
-@keyframes countUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-.count-up { animation: countUp 0.6s ease-out forwards; }
-
 /* Skill bar */
 @keyframes skillFill { from { width:0; } to { width:var(--w); } }
 .skill-bar { width:0; }
 .skill-bar.filled { animation: skillFill 1s cubic-bezier(0.34,1.2,0.64,1) forwards; }
 
-/* Graph line draw */
-@keyframes drawLine { from { stroke-dashoffset: var(--len,2000); } to { stroke-dashoffset: 0; } }
+/* Float */
+@keyframes floatA { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-14px) rotate(2deg)} }
+@keyframes floatB { 0%,100%{transform:translateY(0) rotate(1deg)} 50%{transform:translateY(-10px) rotate(-3deg)} }
+.float-a { animation: floatA 6s ease-in-out infinite; }
+.float-b { animation: floatB 7s ease-in-out infinite; }
 
-/* Node pulse */
-@keyframes nodePulse {
-  0%,100% { r:5; opacity:0.8; }
-  50% { r:8; opacity:1; }
-}
+/* Pulse dot */
+@keyframes pulseDot { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+.pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
 
-/* Floating */
-@keyframes floatUp {
-  0%,100% { transform:translateY(0); }
-  50% { transform:translateY(-12px); }
-}
-.float { animation: floatUp 5s ease-in-out infinite; }
+/* Bar chart rise */
+@keyframes riseUp { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+.bar { transform-origin: bottom; transform: scaleY(0); }
+.bar.visible { animation: riseUp 0.8s cubic-bezier(0.34,1.2,0.64,1) forwards; }
