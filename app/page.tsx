@@ -101,9 +101,9 @@ function Hero() {
         style={{ scale: photoScale }}
         className="absolute right-0 top-0 bottom-0 w-[55%] origin-center"
       >
-        <Image src="/naman-photo.jpg" alt="" fill className="object-cover object-top grayscale opacity-[0.28]" priority />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-transparent to-[#f8f7f4]/35" />
+        <Image src="/naman-photo.jpg" alt="" fill className="object-cover object-top opacity-90" priority />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-transparent to-transparent" />
       </motion.div>
 
       {/* Text */}
