@@ -420,50 +420,49 @@ function MarketersMind() {
 /* ── CONTACT ──────────────────────────────────────────────────────── */
 function Contact() {
   return (
-    <section className="py-40 px-10 bg-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-center">
-        <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
+    <section className="py-40 px-10 bg-[#f5f3ee]">
+      <div className="max-w-3xl mx-auto text-center">
+        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }}>
           <span className="text-[10px] text-black/22 uppercase tracking-[0.3em]">Contact</span>
-          <h2 className="font-black text-black mt-4 leading-[0.95] tracking-tighter" style={{ fontSize: "clamp(3rem,6vw,5.5rem)" }}>
+          <h2 className="font-black text-black mt-4 mb-4 leading-[0.95] tracking-tighter" style={{ fontSize: "clamp(3rem,7vw,6rem)" }}>
             Let&apos;s Build<br />Something<br />That Scales.
           </h2>
-          <p className="text-base text-black/30 mt-6 leading-loose max-w-sm">
+          <p className="text-base text-black/30 mb-12 leading-loose max-w-md mx-auto">
             B2B brand, startup, or government initiative — if you need growth that actually moves the needle, reach out.
           </p>
-          <div className="flex items-center gap-2 mt-6">
+          <div className="space-y-4 text-left max-w-lg mx-auto">
+            <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
+              <div className="w-11 h-11 rounded-full bg-black flex items-center justify-center flex-shrink-0"><Mail size={15} className="text-white" /></div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-1">Email</div>
+                <div className="text-base font-semibold text-black">Namanworks7@gmail.com</div>
+              </div>
+              <ArrowUpRight size={15} className="text-black/12 group-hover:text-black/35 transition-colors" />
+            </motion.a>
+            <motion.a href="tel:+919695624105" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
+              <div className="w-11 h-11 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><Phone size={15} className="text-black/45" /></div>
+              <div className="flex-1">
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-1">Phone</div>
+                <div className="text-base font-semibold text-black">+91 96956 24105</div>
+              </div>
+              <ArrowUpRight size={15} className="text-black/12 group-hover:text-black/35 transition-colors" />
+            </motion.a>
+            <motion.a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank" rel="noopener" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
+              <div className="w-11 h-11 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><img src="/linkedin.svg" alt="LinkedIn" className="w-6 h-6" /></div>
+              <div className="flex-1">
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-1">LinkedIn</div>
+                <div className="text-base font-semibold text-black">linkedin.com/in/naman-singh</div>
+              </div>
+              <ArrowUpRight size={15} className="text-black/12 group-hover:text-black/35 transition-colors" />
+            </motion.a>
+          </div>
+          <div className="flex items-center justify-center gap-2 mt-8">
             <MapPin size={11} className="text-black/20" />
             <span className="text-xs text-black/28">Bangalore, India</span>
           </div>
-        </motion.div>
-        <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: 0.15 }}
-          className="space-y-4">
-          <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
-            <div className="w-11 h-11 rounded-full bg-black flex items-center justify-center flex-shrink-0"><Mail size={15} className="text-white" /></div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[9px] text-black/22 uppercase tracking-widest mb-1">Email</div>
-              <div className="text-base font-semibold text-black">Namanworks7@gmail.com</div>
-            </div>
-            <ArrowUpRight size={15} className="text-black/12 group-hover:text-black/35 transition-colors" />
-          </motion.a>
-          <motion.a href="tel:+919695624105" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
-            <div className="w-11 h-11 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><Phone size={15} className="text-black/45" /></div>
-            <div className="flex-1">
-              <div className="text-[9px] text-black/22 uppercase tracking-widest mb-1">Phone</div>
-              <div className="text-base font-semibold text-black">+91 96956 24105</div>
-            </div>
-            <ArrowUpRight size={15} className="text-black/12 group-hover:text-black/35 transition-colors" />
-          </motion.a>
-          <motion.a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank" rel="noopener" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
-            <div className="w-11 h-11 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><img src="/linkedin.svg" alt="LinkedIn" className="w-6 h-6" /></div>
-            <div className="flex-1">
-              <div className="text-[9px] text-black/22 uppercase tracking-widest mb-1">LinkedIn</div>
-              <div className="text-base font-semibold text-black">linkedin.com/in/naman-singh</div>
-            </div>
-            <ArrowUpRight size={15} className="text-black/12 group-hover:text-black/35 transition-colors" />
-          </motion.a>
         </motion.div>
       </div>
     </section>
