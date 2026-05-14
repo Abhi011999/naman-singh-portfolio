@@ -312,12 +312,15 @@ function Skills() {
   }, []);
   return (
     <section ref={ref} className="py-40 px-12 bg-[#f5f3ee]/60">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-start">
-        <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Skills</span>
-          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 mb-12 leading-[1.0] tracking-tighter">
-            What I&apos;m<br />great at.
+          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
+            What I&apos;m great at.
           </h2>
+        </div>
+        <div className="grid grid-cols-2 gap-24 items-start max-w-7xl mx-auto">
+        <div>
           <div className="space-y-7">
             {skills.map((s, i) => (
               <div key={s.label}>
@@ -332,8 +335,8 @@ function Skills() {
               </div>
             ))}
           </div>
-        </motion.div>
-        <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: 0.15 }}>
+        </div>
+        <div>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Platforms</span>
           <div className="mt-6 grid grid-cols-2 gap-3">
             {["Google Ads","Meta Ads","LinkedIn Ads","GA4","Search Console","Tag Manager","Looker Studio","WordPress","HubSpot","Shopify"].map(p => (
@@ -342,7 +345,8 @@ function Skills() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
+        </div>
       </div>
     </section>
   );
@@ -384,7 +388,7 @@ function MarketersMind() {
   return (
     <section className="py-40 px-12 bg-[#f5f3ee]/60">
       <div className="max-w-7xl mx-auto">
-        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
+        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16 text-center">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">The Marketer&apos;s Mind</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Always thinking<br /><span className="text-black/15">in growth.</span>
