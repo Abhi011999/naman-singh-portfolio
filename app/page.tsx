@@ -188,13 +188,13 @@ function About() {
   return (
     <section className="py-32 px-10 bg-[#f7f5f0]">
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-center">
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }}>
+        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">About</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             I build marketing<br />systems that<br />scale.
           </h2>
         </motion.div>
-        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: 0.15 }}>
+        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: 0.15 }}>
           <p className="text-base text-black/45 leading-loose mb-5">
             7 years solving hard growth challenges across startups, global B2B brands, government projects, healthcare, real estate, and e-commerce.
           </p>
@@ -217,7 +217,7 @@ function Work() {
   return (
     <section id="work" className="py-32 px-10 bg-white/40">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Experience</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             7 years.<br /><span className="text-black/15">No fluff.</span>
@@ -225,7 +225,7 @@ function Work() {
         </motion.div>
         <div className="grid grid-cols-3 gap-6 mb-6">
           {jobs.map((j, i) => (
-            <motion.div key={j.co} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: i * 0.1 }}
+            <motion.div key={j.co} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: i * 0.1 }}
               className="border border-black/6 rounded-2xl p-8 bg-white/70 hover:bg-white transition-colors flex flex-col">
               <div className="mb-4">
                 <div className="text-base font-black text-black">{j.co}</div>
@@ -239,7 +239,7 @@ function Work() {
             </motion.div>
           ))}
         </div>
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }}
           className="border border-black/8 rounded-2xl p-10 bg-black text-white grid grid-cols-2 gap-8 items-center">
           <div>
             <div className="text-[9px] text-white/30 uppercase tracking-widest mb-3">Featured Project</div>
@@ -268,7 +268,7 @@ function Screenshots() {
   return (
     <section className="py-32 px-10 bg-[#f7f5f0]">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Proof of Work</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Real Campaigns.<br /><span className="text-black/15">Real Numbers.</span>
@@ -278,7 +278,7 @@ function Screenshots() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {shots.map((s, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: i * 0.1 }}
+              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: i * 0.1 }}
               whileHover={{ scale: 1.03, zIndex: 10 }}
               className="relative cursor-pointer group"
               style={{ rotate: s.rotate } as React.CSSProperties}>
@@ -315,7 +315,7 @@ function Skills() {
   return (
     <section ref={ref} className="py-32 px-10 bg-white/40">
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-start">
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }}>
+        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Skills</span>
           <h2 className="text-5xl md:text-6xl font-black text-black mt-4 mb-12 leading-[1.0] tracking-tighter">
             What I&apos;m<br />great at.
@@ -335,7 +335,7 @@ function Skills() {
             ))}
           </div>
         </motion.div>
-        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: 0.15 }}>
+        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: 0.15 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Platforms</span>
           <div className="mt-6 grid grid-cols-2 gap-3">
             {["Google Ads","Meta Ads","LinkedIn Ads","GA4","Search Console","Tag Manager","Looker Studio","WordPress","HubSpot","Shopify"].map(p => (
@@ -355,7 +355,7 @@ function Results() {
   return (
     <section className="py-32 px-10 bg-[#f7f5f0]">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Results</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Growth that<br /><span className="text-black/15">shows in data.</span>
@@ -363,7 +363,7 @@ function Results() {
         </motion.div>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-black/5 rounded-2xl overflow-hidden">
           {metrics.map((m, i) => (
-            <motion.div key={m.l} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: i * 0.07 }}
+            <motion.div key={m.l} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0 }} transition={{ delay: i * 0.07 }}
               className="bg-[#f7f5f0] p-8 group hover:bg-white transition-colors">
               <div className="text-4xl font-black text-black mb-2">{m.n}</div>
               <div className="text-[9px] text-black/28 uppercase tracking-widest">{m.l}</div>
@@ -386,7 +386,7 @@ function MarketersMind() {
   return (
     <section className="py-32 px-10 bg-white/40">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">The Marketer&apos;s Mind</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Always thinking<br /><span className="text-black/15">in growth.</span>
@@ -394,14 +394,14 @@ function MarketersMind() {
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {cards.map((c, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: i * 0.1 }}
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: i * 0.1 }}
               className="border border-black/6 rounded-2xl p-7 bg-white/70 hover:bg-white transition-colors">
               <p className="text-sm font-bold text-black mb-1.5">{c.title}</p>
               <p className="text-xs text-black/30 mb-6 leading-loose">{c.sub}</p>
               <div className="flex items-end gap-1.5 h-14">
                 {c.bars.map((h, j) => (
                   <motion.div key={j}
-                    initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true, amount: 0.05 }}
+                    initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true, amount: 0 }}
                     transition={{ delay: i * 0.1 + j * 0.06, duration: 0.5, ease: "easeOut" }}
                     className="flex-1 rounded-sm origin-bottom"
                     style={{ height: `${h}%`, background: "linear-gradient(to top, #111, #666)" }} />
@@ -420,7 +420,7 @@ function Contact() {
   return (
     <section className="py-40 px-10 bg-[#f7f5f0]">
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-center">
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }}>
+        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
           <span className="text-[10px] text-black/22 uppercase tracking-[0.3em]">Contact</span>
           <h2 className="font-black text-black mt-4 leading-[0.95] tracking-tighter" style={{ fontSize: "clamp(3rem,6vw,5.5rem)" }}>
             Let&apos;s Build<br />Something<br />That Scales.
@@ -433,7 +433,7 @@ function Contact() {
             <span className="text-xs text-black/28">Bangalore, India</span>
           </div>
         </motion.div>
-        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: 0.15 }}
+        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: 0.15 }}
           className="space-y-4">
           <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
             className="group flex items-center gap-5 p-6 border border-black/8 hover:border-black/18 bg-white/70 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
