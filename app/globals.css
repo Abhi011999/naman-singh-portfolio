@@ -1,42 +1,108 @@
 @import "tailwindcss";
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+
+html {
+  scroll-behavior: smooth;
+  background: #050816;
+}
 
 body {
-  background: #f8f7f4;
-  color: #111;
+  background: #050816;
+  color: #e8eaf6;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: #f8f7f4; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
-::selection { background: rgba(0,0,0,0.08); }
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: #050816; }
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 2px; }
+::selection { background: rgba(99,102,241,0.25); }
 
-/* Orbit */
+/* ── Orbit ─────────────────────────────────────── */
 @keyframes orbit3d {
-  from { transform: rotate(var(--start,0deg)) translateX(var(--r,160px)) rotate(calc(-1 * var(--start,0deg))); }
-  to   { transform: rotate(calc(var(--start,0deg) + 360deg)) translateX(var(--r,160px)) rotate(calc(-1 * (var(--start,0deg) + 360deg))); }
+  from { transform: rotate(var(--start,0deg)) translateX(var(--r,180px)) rotate(calc(-1 * var(--start,0deg))); }
+  to   { transform: rotate(calc(var(--start,0deg) + 360deg)) translateX(var(--r,180px)) rotate(calc(-1 * (var(--start,0deg) + 360deg))); }
 }
 .orbit-icon {
   position: absolute;
   top: 50%; left: 50%;
-  width: 40px; height: 40px;
-  margin-top: -20px; margin-left: -20px;
-  animation: orbit3d var(--dur,18s) linear infinite;
+  width: 44px; height: 44px;
+  margin-top: -22px; margin-left: -22px;
+  animation: orbit3d var(--dur,22s) linear infinite;
   animation-delay: var(--delay,0s);
+  filter: drop-shadow(0 0 6px rgba(99,102,241,0.5));
 }
 
-/* Fade up */
+/* ── Fade in ────────────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(30px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+}
+.fade-up   { animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) both; }
+.fade-up-1 { animation-delay: 0.1s; }
+.fade-up-2 { animation-delay: 0.3s; }
+.fade-up-3 { animation-delay: 0.5s; }
+.fade-up-4 { animation-delay: 0.8s; }
+
+/* ── Glow pulse ─────────────────────────────────── */
+@keyframes glowPulse {
+  0%,100% { opacity: 0.5; transform: scale(1);   }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+.glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+
+/* ── Graph line draw ────────────────────────────── */
+@keyframes drawLine {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+.graph-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 2s cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-delay: 0.5s;
+}
+
+/* ── Count up ───────────────────────────────────── */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up   { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both; }
-.fade-up-1 { animation-delay: 0.05s; }
-.fade-up-2 { animation-delay: 0.15s; }
-.fade-up-3 { animation-delay: 0.25s; }
-.fade-up-4 { animation-delay: 0.45s; }
+
+/* ── Particles float ────────────────────────────── */
+@keyframes float1 { 0%,100%{transform:translateY(0) translateX(0)} 33%{transform:translateY(-20px) translateX(8px)} 66%{transform:translateY(-8px) translateX(-6px)} }
+@keyframes float2 { 0%,100%{transform:translateY(0) translateX(0)} 33%{transform:translateY(-14px) translateX(-10px)} 66%{transform:translateY(-22px) translateX(5px)} }
+@keyframes float3 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-18px) translateX(12px)} }
+
+/* ── Skill bar ──────────────────────────────────── */
+@keyframes skillGrow {
+  from { width: 0; }
+  to   { width: var(--w, 80%); }
+}
+.skill-bar {
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(99,102,241,0.6);
+}
+.skill-bar.animate {
+  animation: skillGrow 1.2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* ── Number counter ─────────────────────────────── */
+.stat-num {
+  background: linear-gradient(135deg, #e8eaf6 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Graph node pulse ───────────────────────────── */
+@keyframes nodePulse {
+  0%,100% { r: 4; opacity: 0.8; }
+  50%      { r: 7; opacity: 1;   }
+}
+.graph-node { animation: nodePulse 2s ease-in-out infinite; }
