@@ -61,10 +61,10 @@ function Hero() {
         </div>
 
         {/* Main hero grid: LEFT TEXT | CENTER PHOTO | RIGHT TEXT */}
-        <div className="grid grid-cols-[1fr_auto_1fr] gap-8 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
 
           {/* LEFT */}
-          <div className="flex flex-col items-end text-right">
+          <div className="flex flex-col items-center text-center md:items-end md:text-right">
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.16,1,0.3,1] }}>
               <h1 className="font-black text-black tracking-tighter leading-[0.85]" style={{ fontSize: "clamp(4rem,8vw,8rem)" }}>
                 NAMAN
@@ -80,7 +80,7 @@ function Hero() {
               Building brands through scalable digital systems — SEO, paid media, AI marketing, high-ROI campaigns.
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
-              className="mt-8 flex flex-col gap-3 items-end">
+              className="mt-8 flex flex-col gap-3 items-center md:items-end">
               <a href="#work" className="inline-flex items-center gap-2 bg-black text-white text-xs font-bold px-6 py-3 rounded-full hover:bg-black/75 transition-all">
                 View Work <ArrowUpRight size={12} />
               </a>
@@ -125,7 +125,7 @@ function Hero() {
           </motion.div>
 
           {/* RIGHT */}
-          <div className="flex flex-col items-start text-left">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.16,1,0.3,1] }}>
               <h1 className="font-black text-black tracking-tighter leading-[0.85]" style={{ fontSize: "clamp(4rem,8vw,8rem)" }}>
                 SINGH
@@ -327,8 +327,8 @@ function Skills() {
                   <span className="text-sm text-black/45">{s.label}</span>
                   <span className="text-xs text-black/25 font-mono">{s.pct}%</span>
                 </div>
-                <div className="h-px bg-black/6 relative rounded-full overflow-hidden">
-                  <div className="skill-bar h-full rounded-full absolute inset-0"
+                <div className="h-1.5 bg-black/6 relative rounded-full overflow-hidden">
+                  <div className="skill-bar h-full rounded-full"
                     style={{ "--w": `${s.pct}%`, animationDelay: `${i * 100}ms`, background: "linear-gradient(90deg,#111,#666)" } as React.CSSProperties} />
                 </div>
               </div>
