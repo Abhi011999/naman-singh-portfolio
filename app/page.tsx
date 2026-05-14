@@ -1,60 +1,70 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
-import { Mail, Phone, ArrowUpRight, TrendingUp } from "lucide-react";
+import { Mail, Phone, ArrowUpRight, TrendingUp, MapPin } from "lucide-react";
 
-// ─── Data ─────────────────────────────────────────────────────────────────
-
-const chartBars = [
-  { h: 28 }, { h: 42 }, { h: 36 }, { h: 58 }, { h: 50 },
-  { h: 72 }, { h: 65 }, { h: 84 }, { h: 78 }, { h: 92 }, { h: 100 },
-];
+// ── data ──────────────────────────────────────────────────────────────────────
 
 const tickerItems = [
-  "Performance Marketing", "·", "Google Ads", "·", "SEO", "·", "GEO", "·",
-  "Meta Ads", "·", "B2B Strategy", "·", "Lead Gen", "·", "CRO", "·",
-  "GA4", "·", "App Campaigns", "·", "LinkedIn Ads", "·", "AI Marketing", "·",
-  "Performance Marketing", "·", "Google Ads", "·", "SEO", "·", "GEO", "·",
-  "Meta Ads", "·", "B2B Strategy", "·", "Lead Gen", "·", "CRO", "·",
+  "Performance Marketing","·","Google Ads","·","B2B Global","·","SEO & GEO","·",
+  "Meta Ads","·","Lead Generation","·","CRO","·","GA4","·","App Campaigns","·",
+  "Government of India Projects","·","LinkedIn Ads","·","AI Marketing","·",
+  "Performance Marketing","·","Google Ads","·","B2B Global","·","SEO & GEO","·",
+  "Meta Ads","·","Lead Generation","·","CRO","·","GA4","·","App Campaigns","·",
+  "Government of India Projects","·","LinkedIn Ads","·","AI Marketing","·",
 ];
 
 const stats = [
   { n: "7+", l: "Years" },
   { n: "50+", l: "Clients" },
-  { n: "3x", l: "Avg ROI" },
+  { n: "3×", l: "Avg ROI" },
   { n: "₹10Cr+", l: "Ad Spend" },
   { n: "14", l: "Countries" },
   { n: "200+", l: "Campaigns" },
 ];
 
+const chartBars = [25,35,28,50,44,65,58,76,70,88,100];
+
 const screenshots = [
-  { src: "/ss1.jpg", tag: "Google Ads" },
-  { src: "/ss2.jpg", tag: "Meta Ads" },
-  { src: "/ss3.jpg", tag: "Analytics" },
-  { src: "/ss4.jpg", tag: "Campaign Data" },
-  { src: "/ss5.jpg", tag: "Growth Report" },
+  { src: "/ss1.jpg", label: "Google Ads",  rot: -4, fi: 0, left: "2%",  top: "8%"  },
+  { src: "/ss2.jpg", label: "Meta Ads",    rot:  3, fi: 1, left: "22%", top: "38%" },
+  { src: "/ss3.jpg", label: "Analytics",   rot: -2, fi: 0, left: "42%", top: "4%"  },
+  { src: "/ss4.jpg", label: "Campaign",    rot:  4, fi: 1, left: "60%", top: "32%" },
+  { src: "/ss5.jpg", label: "Report",      rot: -3, fi: 0, left: "78%", top: "12%" },
 ];
 
 const jobs = [
-  { co: "Social Musketeers", role: "Head of Marketing", period: "2022 – Present", tags: ["Govt of India", "SaaS", "B2B Global", "Healthcare"] },
-  { co: "Vinra Group", role: "Digital Marketing Manager", period: "2020 – 2022", tags: ["Google Ads", "SEO", "Meta", "CRO"] },
-  { co: "Comm8", role: "Digital Marketing Executive", period: "2019 – 2020", tags: ["Lead Gen", "Social", "PPC"] },
+  { co: "Social Musketeers", role: "Head of Marketing",          period: "2022 – Present", tags: ["Govt of India","SaaS","B2B Global","Healthcare","Real Estate"] },
+  { co: "Vinra Group",       role: "Digital Marketing Manager",  period: "2020 – 2022",    tags: ["Google Ads","SEO","Meta","CRO"] },
+  { co: "Comm8",             role: "Digital Marketing Executive",period: "2019 – 2020",    tags: ["Lead Gen","Social","PPC"] },
 ];
 
-const memes = [
-  { emoji: "📊", top: "Me: 'We need to reduce CAC'\nAlso me:", punch: "builds a 47-step funnel" },
-  { emoji: "📈", top: "My ROAS after 3 months of optimization:", punch: "stonks only go up" },
-  { emoji: "🧠", top: "Client: 'Can we go viral?'\nMe (B2B SaaS marketer):", punch: "Sir, this is a LinkedIn ad" },
-];
-
-// ─── Nav ──────────────────────────────────────────────────────────────────
-
-function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+// ── cursor ─────────────────────────────────────────────────────────────────────
+function Cursor() {
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const sx = useSpring(x, { stiffness: 600, damping: 30 });
+  const sy = useSpring(y, { stiffness: 600, damping: 30 });
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60);
+    const fn = (e: MouseEvent) => { x.set(e.clientX); y.set(e.clientY); };
+    window.addEventListener("mousemove", fn);
+    return () => window.removeEventListener("mousemove", fn);
+  }, [x, y]);
+  return (
+    <motion.div
+      style={{ left: sx, top: sy, translateX: "-50%", translateY: "-50%" }}
+      className="fixed w-5 h-5 rounded-full border border-black/20 pointer-events-none z-[9999] mix-blend-multiply"
+    />
+  );
+}
+
+// ── nav ────────────────────────────────────────────────────────────────────────
+function Nav() {
+  const [solid, setSolid] = useState(false);
+  useEffect(() => {
+    const fn = () => setSolid(window.scrollY > 80);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -62,127 +72,136 @@ function Nav() {
     <motion.nav
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#080808]/90 backdrop-blur-xl border-b border-white/5" : ""}`}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${solid ? "bg-[#f8f7f4]/90 backdrop-blur-xl border-b border-black/5" : ""}`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <span className="text-xs font-bold tracking-[0.25em] text-white/40 uppercase">Naman Singh</span>
-        <div className="flex items-center gap-6">
-          {["Work", "Proof", "Contact"].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-xs text-white/25 hover:text-white transition-colors uppercase tracking-widest">{item}</a>
-          ))}
+        <span className="text-xs font-black tracking-[0.3em] text-black/35 uppercase">NS</span>
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse" />
+          <span className="text-xs text-black/25 tracking-wide">Available</span>
         </div>
       </div>
     </motion.nav>
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────
-
+// ── hero ───────────────────────────────────────────────────────────────────────
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const txtY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const op = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const photoScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const textY      = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
+  const textOp     = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-end overflow-hidden">
-      <motion.div style={{ y: imgY }} className="absolute inset-0">
-        <Image src="/naman-photo.jpg" alt="Naman Singh" fill className="object-cover object-top" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/55 to-[#080808]/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/75 via-[#080808]/20 to-transparent" />
+    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Off-center photo */}
+      <motion.div
+        style={{ scale: photoScale }}
+        className="absolute right-0 top-0 bottom-0 w-[55%] origin-center"
+      >
+        <Image src="/naman-photo.jpg" alt="" fill className="object-cover object-top grayscale opacity-[0.28]" priority />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/55 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-transparent to-[#f8f7f4]/35" />
       </motion.div>
 
-      <motion.div style={{ y: txtY, opacity: op }} className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-20 pt-32">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="inline-flex items-center gap-2 border border-white/10 rounded-full px-3 py-1 text-xs text-white/40 mb-6"
-        >
-          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full pulse-dot" />
-          Open to opportunities
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.7 }}
-          className="text-7xl md:text-[9rem] font-black leading-none tracking-tighter text-white mb-5"
-        >
-          Naman<br />Singh
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="text-white/45 text-base md:text-lg max-w-md mb-3 leading-relaxed font-light italic"
-        >
-          &ldquo;Calm mind. Sharp strategy.<br />The best growth comes when you stop chasing and start thinking.&rdquo;
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="text-white/20 text-xs uppercase tracking-widest mb-8"
-        >
-          Head of Marketing · 7+ Years · Bangalore
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="flex flex-wrap gap-3"
-        >
-          <a
-            href="mailto:Namanworks7@gmail.com"
-            className="group flex items-center gap-2 bg-white text-black text-xs font-bold px-6 py-3 rounded-full hover:bg-white/90 transition-all"
+      {/* Text */}
+      <motion.div style={{ y: textY, opacity: textOp }} className="relative z-10 max-w-6xl mx-auto px-6 w-full">
+        <div className="max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="flex items-center gap-3 mb-8"
           >
-            <Mail size={11} />
-            Namanworks7@gmail.com
-            <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
-          <a
-            href="tel:+919695624105"
-            className="flex items-center gap-2 border border-white/15 text-white/50 text-xs px-6 py-3 rounded-full hover:border-white/35 hover:text-white transition-all"
+            <div className="h-px w-8 bg-black/18" />
+            <span className="text-xs text-black/35 uppercase tracking-[0.2em]">Head of Marketing · Bangalore</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="font-black leading-[0.88] tracking-tighter text-black mb-8"
+            style={{ fontSize: "clamp(4rem,12vw,9rem)" }}
           >
-            <Phone size={11} />
-            +91 96956 24105
-          </a>
-        </motion.div>
+            Naman<br />Singh
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55 }}
+            className="text-sm md:text-base text-black/38 max-w-sm leading-relaxed mb-10 font-light italic"
+          >
+            &ldquo;Calm mind. Sharp strategy.<br />The best growth comes when you stop chasing and start thinking.&rdquo;
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="flex flex-wrap gap-3"
+          >
+            <a
+              href="mailto:Namanworks7@gmail.com"
+              className="group inline-flex items-center gap-2 bg-black text-white text-xs font-semibold px-6 py-3 rounded-full hover:bg-black/80 transition-all"
+            >
+              <Mail size={11} />
+              Namanworks7@gmail.com
+              <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+            <a
+              href="tel:+919695624105"
+              className="inline-flex items-center gap-2 border border-black/10 text-black/45 text-xs px-6 py-3 rounded-full hover:border-black/28 hover:text-black transition-all"
+            >
+              <Phone size={11} />
+              +91 96956 24105
+            </a>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Scroll line */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ scaleY: [0.4, 1, 0.4] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className="w-px h-12 bg-gradient-to-b from-transparent via-black/25 to-transparent"
+        />
       </motion.div>
     </section>
   );
 }
 
-// ─── Ticker ───────────────────────────────────────────────────────────────
-
+// ── ticker ─────────────────────────────────────────────────────────────────────
 function Ticker() {
   return (
-    <div className="py-3.5 border-y border-white/5 overflow-hidden bg-white/[0.008]">
+    <div className="py-4 border-y border-black/6 overflow-hidden">
       <div className="flex ticker-track whitespace-nowrap">
         {tickerItems.map((t, i) => (
-          <span key={i} className="text-[10px] text-white/18 uppercase tracking-widest mx-3">{t}</span>
+          <span key={i} className="text-[10px] text-black/22 uppercase tracking-widest mx-4">{t}</span>
         ))}
       </div>
     </div>
   );
 }
 
-// ─── Stats ────────────────────────────────────────────────────────────────
-
-function StatsBar() {
+// ── stats ──────────────────────────────────────────────────────────────────────
+function Stats() {
   return (
-    <section className="relative py-16 overflow-hidden border-b border-white/5">
+    <section className="relative py-20 overflow-hidden border-b border-black/5">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span className="text-[22vw] font-black text-white/[0.013] tracking-tighter select-none leading-none">GROWTH</span>
+        <span className="text-[22vw] font-black text-black/[0.022] tracking-tighter select-none leading-none">GROWTH</span>
       </div>
       <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-white/5">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-black/5">
           {stats.map((s, i) => (
             <motion.div
               key={s.l}
@@ -190,10 +209,10 @@ function StatsBar() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07 }}
-              className="bg-[#080808] py-8 px-4 text-center group hover:bg-white/[0.03] transition-colors cursor-default"
+              className="bg-[#f8f7f4] py-10 px-4 text-center group hover:bg-black/[0.02] transition-colors cursor-default"
             >
-              <div className="text-3xl md:text-4xl font-black text-white mb-1.5 group-hover:scale-110 transition-transform duration-300 origin-bottom">{s.n}</div>
-              <div className="text-[9px] text-white/22 uppercase tracking-widest">{s.l}</div>
+              <div className="text-3xl md:text-4xl font-black text-black mb-1.5 group-hover:scale-110 transition-transform duration-300 origin-bottom">{s.n}</div>
+              <div className="text-[9px] text-black/28 uppercase tracking-widest">{s.l}</div>
             </motion.div>
           ))}
         </div>
@@ -202,162 +221,136 @@ function StatsBar() {
   );
 }
 
-// ─── Proof / Screenshots ──────────────────────────────────────────────────
-
-function ChartBars() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const bars = el.querySelectorAll<HTMLElement>(".bar-animate");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            bars.forEach((bar, i) => {
-              setTimeout(() => bar.classList.add("in-view"), i * 60);
-            });
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+// ── floating screenshots ───────────────────────────────────────────────────────
+function Screenshots() {
   return (
-    <div ref={ref} className="mb-14">
-      <div className="flex items-end gap-1.5 h-28 border-b border-white/5">
-        {chartBars.map((b, i) => (
-          <div
-            key={i}
-            className={`bar-animate flex-1 rounded-t-sm ${i === chartBars.length - 1 ? "bg-white" : "bg-white/20 hover:bg-white/40 transition-colors"}`}
-            style={{
-              height: `${b.h}%`,
-              animationDelay: `${i * 60}ms`,
-            }}
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-1.5 mt-2">
-        <TrendingUp size={11} className="text-white/18" />
-        <span className="text-[10px] text-white/18">Campaign ROI growth over time — last bar is now</span>
-      </div>
-    </div>
-  );
-}
-
-function ProofSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const x1 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
-  const x2 = useTransform(scrollYProgress, [0, 1], [30, -30]);
-
-  return (
-    <section id="proof" ref={ref} className="py-24 px-6 border-b border-white/5 overflow-hidden">
+    <section className="py-24 px-6 border-b border-black/5 overflow-hidden">
       <div className="max-w-6xl mx-auto">
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-16"
         >
-          <span className="text-xs text-white/18 uppercase tracking-widest">The receipts</span>
-          <h2 className="text-4xl md:text-6xl font-black text-white mt-2 leading-none tracking-tight">
-            Growth.<br /><span className="text-white/28">Measured.</span>
+          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Proof of Work</span>
+          <h2 className="text-4xl md:text-5xl font-black text-black mt-2 leading-none tracking-tight">
+            Real campaigns,<br /><span className="text-black/22">real results.</span>
           </h2>
         </motion.div>
 
-        {/* Animated bar chart */}
-        <ChartBars />
-
-        {/* Screenshots row 1 */}
-        <div className="space-y-4">
-          <motion.div style={{ x: x1 }} className="flex gap-4">
-            {screenshots.slice(0, 3).map((ss, i) => (
+        {/* Scattered floating cards */}
+        <div className="relative h-[360px] md:h-[320px]">
+          {screenshots.map((ss, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.07, rotate: 0, zIndex: 20 }}
+              className={ss.fi === 0 ? "float-a absolute group cursor-pointer" : "float-b absolute group cursor-pointer"}
+              style={{
+                "--rot": `${ss.rot}deg`,
+                left: ss.left,
+                top: ss.top,
+                zIndex: i + 1,
+              } as React.CSSProperties}
+            >
               <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.025, zIndex: 10 }}
-                className="relative flex-shrink-0 w-60 md:w-72 group"
-              >
-                <div className="relative rounded-lg overflow-hidden border border-white/[0.07]">
-                  <Image src={ss.src} alt={ss.tag} width={288} height={170} className="w-full h-40 object-cover object-top" />
-                  <div className="absolute inset-0 bg-black/52 group-hover:bg-black/15 transition-all duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5 bg-gradient-to-t from-black/75 to-transparent">
-                    <span className="text-[9px] text-white/45 uppercase tracking-widest">{ss.tag}</span>
-                  </div>
+                animate={{ rotate: ss.rot }}
+                className="w-40 md:w-48 rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-black/6 bg-white">
+                <Image
+                  src={ss.src}
+                  alt={ss.label}
+                  width={192}
+                  height={120}
+                  className="w-full h-28 object-cover object-top grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
+                />
+                <div className="px-3 py-2">
+                  <span className="text-[9px] text-black/35 uppercase tracking-widest">{ss.label}</span>
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Screenshots row 2 */}
-          <motion.div style={{ x: x2 }} className="flex gap-4 pl-12">
-            {screenshots.slice(3).map((ss, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 + 0.1 }}
-                whileHover={{ scale: 1.025, zIndex: 10 }}
-                className="relative flex-shrink-0 w-60 md:w-72 group"
-              >
-                <div className="relative rounded-lg overflow-hidden border border-white/[0.07]">
-                  <Image src={ss.src} alt={ss.tag} width={288} height={170} className="w-full h-40 object-cover object-top" />
-                  <div className="absolute inset-0 bg-black/52 group-hover:bg-black/15 transition-all duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5 bg-gradient-to-t from-black/75 to-transparent">
-                    <span className="text-[9px] text-white/45 uppercase tracking-widest">{ss.tag}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
-
       </div>
     </section>
   );
 }
 
-// ─── Work ─────────────────────────────────────────────────────────────────
+// ── chart component ────────────────────────────────────────────────────────────
+function ChartBars() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const bars = el.querySelectorAll<HTMLElement>(".bar");
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        bars.forEach((b, i) => setTimeout(() => b.classList.add("visible"), i * 55));
+        obs.disconnect();
+      }
+    }, { threshold: 0.35 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
-function WorkSection() {
   return (
-    <section id="work" className="py-24 px-6 border-b border-white/5">
+    <div ref={ref}>
+      <div className="flex items-end gap-1.5 h-24 border-b border-black/8">
+        {chartBars.map((h, i) => (
+          <div
+            key={i}
+            className={`bar flex-1 rounded-t-sm ${i === chartBars.length - 1 ? "bg-black" : "bg-black/14 hover:bg-black/28 transition-colors"}`}
+            style={{ height: `${h}%`, animationDelay: `${i * 55}ms` }}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-1.5 mt-2">
+        <TrendingUp size={10} className="text-black/18" />
+        <span className="text-[9px] text-black/18 uppercase tracking-widest">Campaign ROI growth — last bar is now</span>
+      </div>
+    </div>
+  );
+}
+
+// ── work ───────────────────────────────────────────────────────────────────────
+function Work() {
+  return (
+    <section className="py-24 px-6 border-b border-black/5">
       <div className="max-w-6xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
-          <span className="text-xs text-white/18 uppercase tracking-widest">Experience</span>
-          <h2 className="text-4xl md:text-6xl font-black text-white mt-2 leading-none tracking-tight">7 years.<br /><span className="text-white/28">No fluff.</span></h2>
-        </motion.div>
-        <div className="space-y-px bg-white/5">
+        <div className="grid md:grid-cols-2 gap-16 mb-16 items-end">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Experience</span>
+            <h2 className="text-4xl md:text-5xl font-black text-black mt-2 leading-none tracking-tight">
+              7 years.<br /><span className="text-black/22">No fluff.</span>
+            </h2>
+          </motion.div>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+            <ChartBars />
+          </motion.div>
+        </div>
+
+        <div className="space-y-px bg-black/5">
           {jobs.map((j, i) => (
             <motion.div
               key={j.co}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -16 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-[#080808] p-7 flex flex-col md:flex-row md:items-center gap-4 hover:bg-white/[0.025] transition-colors group"
+              className="bg-[#f8f7f4] px-7 py-6 flex flex-col md:flex-row md:items-center gap-4 hover:bg-black/[0.018] transition-colors group"
             >
               <div className="flex-1">
-                <div className="text-base font-black text-white mb-0.5">{j.co}</div>
-                <div className="text-sm text-white/35">{j.role} <span className="text-white/18 text-xs">· {j.period}</span></div>
+                <div className="text-sm font-black text-black mb-0.5">{j.co}</div>
+                <div className="text-xs text-black/32">{j.role} <span className="text-black/18">· {j.period}</span></div>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {j.tags.map(t => (
-                  <span key={t} className="text-[10px] text-white/28 border border-white/[0.07] px-2.5 py-1 rounded-full">{t}</span>
+                  <span key={t} className="text-[9px] text-black/28 border border-black/8 px-2.5 py-1 rounded-full">{t}</span>
                 ))}
               </div>
-              <ArrowUpRight size={15} className="text-white/8 group-hover:text-white/35 transition-colors flex-shrink-0 hidden md:block" />
+              <ArrowUpRight size={14} className="text-black/8 group-hover:text-black/30 transition-colors hidden md:block flex-shrink-0" />
             </motion.div>
           ))}
         </div>
@@ -366,114 +359,94 @@ function WorkSection() {
   );
 }
 
-// ─── Memes ────────────────────────────────────────────────────────────────
-
-function MemeSection() {
-  return (
-    <section className="py-24 px-6 border-b border-white/5 overflow-hidden relative">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span className="text-[18vw] font-black text-white/[0.01] tracking-tighter select-none leading-none">MEMES</span>
-      </div>
-      <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12">
-          <span className="text-xs text-white/18 uppercase tracking-widest">Because why not</span>
-          <h2 className="text-4xl md:text-5xl font-black text-white mt-2 leading-none tracking-tight">
-            Marketer brain.<br /><span className="text-white/28">Never off.</span>
-          </h2>
-        </motion.div>
-        <div className="grid md:grid-cols-3 gap-px bg-white/5">
-          {memes.map((m, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.025)" }}
-              className="bg-[#080808] p-8 cursor-default transition-all duration-300"
-            >
-              <div className="text-5xl mb-5 float">{m.emoji}</div>
-              <p className="text-sm text-white/40 leading-relaxed mb-5 whitespace-pre-line">{m.top}</p>
-              <div className="inline-block border border-white/8 rounded-full px-3 py-1.5 text-xs text-white/55 bg-white/[0.025]">
-                {m.punch}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <p className="text-center text-[10px] text-white/12 mt-6 italic">* No client KPIs were harmed in the making of these memes.</p>
-      </div>
-    </section>
-  );
-}
-
-// ─── Contact ──────────────────────────────────────────────────────────────
-
+// ── contact ────────────────────────────────────────────────────────────────────
 function Contact() {
   return (
-    <section id="contact" className="py-32 px-6">
-      <div className="max-w-6xl mx-auto text-center">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <span className="text-xs text-white/18 uppercase tracking-widest">Let&apos;s talk</span>
-          <h2 className="text-6xl md:text-8xl font-black text-white mt-4 mb-5 leading-none tracking-tighter">
-            Hit me up
-          </h2>
-          <p className="text-white/28 text-sm mb-12 max-w-sm mx-auto leading-relaxed">
-            B2B brand, startup, or government project — if you need growth, I&apos;m your person.<br />
-            <span className="text-white/18">If you don&apos;t need growth... still reach out, we&apos;ll figure it out 😄</span>
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+    <section className="py-32 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-16 items-end">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Let&apos;s talk</span>
+            <h2 className="text-5xl md:text-7xl font-black text-black mt-2 leading-none tracking-tighter">
+              Hit<br />me up.
+            </h2>
+            <p className="text-black/32 text-sm mt-5 max-w-xs leading-relaxed">
+              B2B, startup, or government project — if you need growth, you need me. If not... still reach out 😄
+            </p>
+            <div className="flex items-center gap-2 mt-4">
+              <MapPin size={10} className="text-black/22" />
+              <span className="text-xs text-black/22">Bangalore, India</span>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="space-y-3"
+          >
             <motion.a
               href="mailto:Namanworks7@gmail.com"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="group flex items-center gap-2.5 bg-white text-black font-bold px-8 py-4 rounded-full text-sm hover:bg-white/92 transition-all"
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.985 }}
+              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/50 hover:bg-white transition-all rounded-2xl"
             >
-              <Mail size={14} />
-              Namanworks7@gmail.com
-              <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+                <Mail size={13} className="text-white" />
+              </div>
+              <div>
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Email</div>
+                <div className="text-sm font-semibold text-black">Namanworks7@gmail.com</div>
+              </div>
+              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors" />
             </motion.a>
+
             <motion.a
               href="tel:+919695624105"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-2.5 border border-white/12 text-white/50 text-sm px-8 py-4 rounded-full hover:border-white/35 hover:text-white transition-all"
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.985 }}
+              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/50 hover:bg-white transition-all rounded-2xl"
             >
-              <Phone size={13} />
-              +91 96956 24105
+              <div className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0">
+                <Phone size={13} className="text-black/45" />
+              </div>
+              <div>
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Phone</div>
+                <div className="text-sm font-semibold text-black">+91 96956 24105</div>
+              </div>
+              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors" />
             </motion.a>
-          </div>
-          <p className="text-white/10 text-xs mt-8">📍 Bangalore, India</p>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────
-
+// ── footer ─────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-6 px-6">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
-        <span className="text-xs text-white/12">© 2026 Naman Singh</span>
-        <span className="text-xs text-white/8">Performance Marketing · SEO · GEO · Growth</span>
+    <footer className="border-t border-black/5 py-6 px-6">
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
+        <span className="text-xs text-black/14 font-semibold tracking-widest uppercase">Naman Singh</span>
+        <span className="text-[10px] text-black/10">© 2026</span>
       </div>
     </footer>
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────
-
+// ── page ───────────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
-    <main className="bg-[#080808] min-h-screen">
+    <main className="bg-[#f8f7f4] min-h-screen grain">
+      <Cursor />
       <Nav />
       <Hero />
       <Ticker />
-      <StatsBar />
-      <ProofSection />
-      <WorkSection />
-      <MemeSection />
+      <Stats />
+      <Screenshots />
+      <Work />
       <Contact />
       <Footer />
     </main>

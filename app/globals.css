@@ -1,50 +1,63 @@
 @import "tailwindcss";
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html { scroll-behavior: smooth; }
 
 body {
-  background: #080808;
-  color: #f0f0f0;
+  background: #f8f7f4;
+  color: #0a0a0a;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
 }
 
 ::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: #080808; }
-::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
-::selection { background: rgba(255,255,255,0.12); }
+::-webkit-scrollbar-track { background: #f8f7f4; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+::selection { background: rgba(0,0,0,0.08); }
 
-@keyframes rise {
-  from { transform: scaleY(0); opacity: 0; }
-  to   { transform: scaleY(1); opacity: 1; }
-}
-
-.bar-animate {
-  transform: scaleY(0);
-  opacity: 0;
-  transform-origin: bottom;
-}
-
-.bar-animate.in-view {
-  animation: rise 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
+/* Ticker */
 @keyframes ticker {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+.ticker-track { animation: ticker 35s linear infinite; }
 
-@keyframes pulse-dot {
+/* Floating cards */
+@keyframes floatA {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot)); }
+  50% { transform: translateY(-10px) rotate(var(--rot)); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot)); }
+  50% { transform: translateY(10px) rotate(var(--rot)); }
+}
+.float-a { animation: floatA 5s ease-in-out infinite; }
+.float-b { animation: floatB 6s ease-in-out infinite; }
+
+/* Chart bars */
+@keyframes riseUp {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+.bar { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+.bar.visible { animation: riseUp 0.55s cubic-bezier(0.34,1.4,0.64,1) forwards; }
+
+/* Pulse dot */
+@keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 0.5; transform: scale(0.85); }
 }
+.pulse { animation: pulse 2s ease-in-out infinite; }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* Grain texture overlay */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
 }
-
-.ticker-track { animation: ticker 30s linear infinite; }
-.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
-.float { animation: float 5s ease-in-out infinite; }
