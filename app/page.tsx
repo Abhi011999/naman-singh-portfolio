@@ -109,7 +109,7 @@ const QUIRKY_THINGS = [
 /* ══ ABOUT ME ═════════════════════════════════════════════ */
 function AboutMe() {
   return (
-    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
+    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-20">
       <div className="max-w-5xl mx-auto">
         <SectionHeader label="02 / About Me" title={<>The person behind<br /><span className="gradient-text">the campaigns.</span></>} />
 
@@ -270,7 +270,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref);
   return (
-    <div ref={ref} className="reveal w-full"
+    <div ref={ref} className="reveal"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(28px)",
@@ -301,7 +301,7 @@ function SectionHeader({
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center z-10">
-      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 py-24">
+      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 lg:px-20 py-24">
 
         {/* Two column: text | photo */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
@@ -396,7 +396,7 @@ function Hero() {
 /* ══ EXPERIENCE ════════════════════════════════════════════ */
 function Experience() {
   return (
-    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
+    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-20">
       <div className="max-w-5xl mx-auto">
         <SectionHeader label="03 / Experience" title={<>7 Years. 3 Companies.<br /><span className="gradient-text">Real Growth.</span></>} />
 
@@ -494,7 +494,7 @@ function Experience() {
 /* ══ FEATURED PROJECT ═════════════════════════════════════ */
 function FeaturedProject() {
   return (
-    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
+    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-20">
       <div className="max-w-5xl mx-auto">
         <SectionHeader label="04 / Featured Project" title={<>LPG Awareness<br /><span className="gradient-text">Campaign</span></>} />
 
@@ -570,7 +570,7 @@ function Skills() {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref);
   return (
-    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
+    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-20">
       <div className="max-w-5xl mx-auto">
         <SectionHeader label="05 / Skills & Platforms" title={<>Tools, Skills &amp;<br /><span className="gradient-text">Platforms</span></>} />
 
@@ -631,7 +631,7 @@ function Skills() {
 /* ══ AI & FUTURE ══════════════════════════════════════════ */
 function AIFuture() {
   return (
-    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
+    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-20">
       <div className="max-w-5xl mx-auto">
         <SectionHeader label="06 / AI & Future of Marketing" title={<>Why I&apos;m Excited About<br /><span className="gradient-text">AI-Driven Marketing.</span></>} />
 
@@ -717,7 +717,7 @@ function ProofOfWork() {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref);
   return (
-    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
+    <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-20">
       <div className="max-w-5xl mx-auto">
         <Reveal>
           <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">Proof of Work</span>
@@ -774,7 +774,7 @@ function ProofOfWork() {
 /* ══ CONTACT ══════════════════════════════════════════════ */
 function Contact() {
   return (
-    <section id="contact" className="relative z-10 py-32 sm:py-40 px-6 sm:px-10 text-center">
+    <section id="contact" className="relative z-10 py-32 sm:py-40 px-6 sm:px-10 lg:px-20 text-center">
       <div className="max-w-3xl mx-auto">
         <Reveal>
           <div className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em] mb-4">07 / Let&apos;s Build Something</div>
