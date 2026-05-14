@@ -1,57 +1,22 @@
 @import "tailwindcss";
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
-  background: #f8f7f4;
-  color: #0a0a0a;
+  background: #050816;
+  color: #e8eaf6;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
 }
 
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: #f8f7f4; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
-::selection { background: rgba(0,0,0,0.08); }
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: #050816; }
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 2px; }
+::selection { background: rgba(99,102,241,0.3); }
 
-/* Ticker */
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.ticker-track { animation: ticker 35s linear infinite; }
-
-/* Floating cards */
-@keyframes floatA {
-  0%, 100% { transform: translateY(0px) rotate(var(--rot)); }
-  50% { transform: translateY(-10px) rotate(var(--rot)); }
-}
-@keyframes floatB {
-  0%, 100% { transform: translateY(0px) rotate(var(--rot)); }
-  50% { transform: translateY(10px) rotate(var(--rot)); }
-}
-.float-a { animation: floatA 5s ease-in-out infinite; }
-.float-b { animation: floatB 6s ease-in-out infinite; }
-
-/* Chart bars */
-@keyframes riseUp {
-  from { transform: scaleY(0); opacity: 0; }
-  to   { transform: scaleY(1); opacity: 1; }
-}
-.bar { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
-.bar.visible { animation: riseUp 0.55s cubic-bezier(0.34,1.4,0.64,1) forwards; }
-
-/* Pulse dot */
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
-}
-.pulse { animation: pulse 2s ease-in-out infinite; }
-
-/* Platform icon orbit */
-@keyframes orbit {
+/* Orbit */
+@keyframes orbit3d {
   from { transform: rotate(var(--start,0deg)) translateX(var(--r,160px)) rotate(calc(-1 * var(--start,0deg))); }
   to   { transform: rotate(calc(var(--start,0deg) + 360deg)) translateX(var(--r,160px)) rotate(calc(-1 * (var(--start,0deg) + 360deg))); }
 }
@@ -60,18 +25,49 @@ body {
   top: 50%; left: 50%;
   width: 44px; height: 44px;
   margin-top: -22px; margin-left: -22px;
-  animation: orbit var(--dur,12s) linear infinite;
+  animation: orbit3d var(--dur,14s) linear infinite;
   animation-delay: var(--delay,0s);
 }
 
-/* Grain texture overlay */
-.grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 200px;
+/* Ticker */
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ticker-track { animation: ticker 30s linear infinite; }
+
+/* Glow pulse */
+@keyframes glowPulse {
+  0%,100% { opacity:0.6; box-shadow: 0 0 8px rgba(99,102,241,0.4); }
+  50% { opacity:1; box-shadow: 0 0 20px rgba(99,102,241,0.8), 0 0 40px rgba(139,92,246,0.4); }
 }
+.glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
+
+/* Particle float */
+@keyframes particleFloat {
+  0%,100% { transform: translateY(0) translateX(0); opacity:0.4; }
+  33% { transform: translateY(-30px) translateX(10px); opacity:0.8; }
+  66% { transform: translateY(-15px) translateX(-8px); opacity:0.6; }
+}
+
+/* Count up */
+@keyframes countUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.count-up { animation: countUp 0.6s ease-out forwards; }
+
+/* Skill bar */
+@keyframes skillFill { from { width:0; } to { width:var(--w); } }
+.skill-bar { width:0; }
+.skill-bar.filled { animation: skillFill 1s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+
+/* Graph line draw */
+@keyframes drawLine { from { stroke-dashoffset: var(--len,2000); } to { stroke-dashoffset: 0; } }
+
+/* Node pulse */
+@keyframes nodePulse {
+  0%,100% { r:5; opacity:0.8; }
+  50% { r:8; opacity:1; }
+}
+
+/* Floating */
+@keyframes floatUp {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-12px); }
+}
+.float { animation: floatUp 5s ease-in-out infinite; }

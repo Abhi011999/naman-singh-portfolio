@@ -2,16 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Naman Singh — Growth & Performance Marketing",
-  description: "Head of Marketing with 7+ years driving ROI across B2B, Government, and Global clients.",
-  keywords: ["Naman Singh", "Performance Marketing", "Growth Marketing", "SEO", "PPC", "B2B Marketing"],
+  title: "Naman Singh — Growth Strategist & Performance Marketer",
+  description: "Building brands through scalable digital systems. 7+ years across B2B, Govt of India, and global clients.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

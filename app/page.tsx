@@ -1,468 +1,514 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Mail, Phone, ArrowUpRight, Download, TrendingUp, MapPin, Brain, Globe2, BarChart3, Target, Zap } from "lucide-react";
+import { Mail, Phone, ExternalLink } from "lucide-react";
 
-const tickerItems = [
-  "Performance Marketing","·","Google Ads","·","B2B Global","·","SEO & GEO","·","Meta Ads","·","Lead Generation","·","CRO","·","GA4","·","App Campaigns","·","Government of India","·","LinkedIn Ads","·","AI Marketing","·",
-  "Performance Marketing","·","Google Ads","·","B2B Global","·","SEO & GEO","·","Meta Ads","·","Lead Generation","·","CRO","·","GA4","·","App Campaigns","·","Government of India","·","LinkedIn Ads","·","AI Marketing","·",
+// ── PARTICLES ──────────────────────────────────────────────────────────────────
+function Particles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+    const particles = Array.from({ length: 80 }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.3, a: Math.random() * 0.5 + 0.1,
+    }));
+    let raf: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(99,102,241,${p.a})`;
+        ctx.fill();
+      });
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    const resize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
+    window.addEventListener("resize", resize);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
+  }, []);
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 opacity-60" />;
+}
+
+// ── GRID BACKGROUND ────────────────────────────────────────────────────────────
+function GridBg() {
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.04]"
+      style={{ backgroundImage: "linear-gradient(rgba(99,102,241,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+  );
+}
+
+// ── CURSOR ─────────────────────────────────────────────────────────────────────
+function Cursor() {
+  const x = useMotionValue(-100), y = useMotionValue(-100);
+  const sx = useSpring(x, { stiffness: 500, damping: 28 });
+  const sy = useSpring(y, { stiffness: 500, damping: 28 });
+  useEffect(() => {
+    const fn = (e: MouseEvent) => { x.set(e.clientX); y.set(e.clientY); };
+    window.addEventListener("mousemove", fn);
+    return () => window.removeEventListener("mousemove", fn);
+  }, [x, y]);
+  return (
+    <>
+      <motion.div style={{ left: sx, top: sy, translateX: "-50%", translateY: "-50%" }}
+        className="fixed w-4 h-4 rounded-full bg-indigo-500/30 pointer-events-none z-[9999]" />
+      <motion.div style={{ left: sx, top: sy, translateX: "-50%", translateY: "-50%" }}
+        className="fixed w-8 h-8 rounded-full border border-indigo-400/30 pointer-events-none z-[9998]" />
+    </>
+  );
+}
+
+// ── ORBITAL ICONS ──────────────────────────────────────────────────────────────
+const platforms = [
+  { src: "/google.svg",    alt: "Google",          r: "170px", start:   "0deg", dur: "18s" },
+  { src: "/facebook.svg",  alt: "Meta Ads",        r: "170px", start:  "36deg", dur: "18s" },
+  { src: "/instagram.svg", alt: "Instagram",       r: "170px", start:  "72deg", dur: "18s" },
+  { src: "/linkedin.svg",  alt: "LinkedIn",        r: "170px", start: "108deg", dur: "18s" },
+  { src: "/youtube.svg",   alt: "YouTube",         r: "170px", start: "144deg", dur: "18s" },
+  { src: "/googleads.svg", alt: "Google Ads",      r: "170px", start: "180deg", dur: "18s" },
+  { src: "/google.svg",    alt: "Analytics",       r: "220px", start:  "20deg", dur: "26s" },
+  { src: "/linkedin.svg",  alt: "Bing",            r: "220px", start: "110deg", dur: "26s" },
+  { src: "/instagram.svg", alt: "Apple Search",    r: "220px", start: "200deg", dur: "26s" },
+  { src: "/googleads.svg", alt: "AI Automation",   r: "220px", start: "290deg", dur: "26s" },
 ];
+
+// ── HERO ───────────────────────────────────────────────────────────────────────
+function Hero() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotX = useSpring(useTransform(mouseY, [-300, 300], [8, -8]), { stiffness: 100, damping: 20 });
+  const rotY = useSpring(useTransform(mouseX, [-400, 400], [-8, 8]), { stiffness: 100, damping: 20 });
+
+  useEffect(() => {
+    const fn = (e: MouseEvent) => {
+      mouseX.set(e.clientX - window.innerWidth / 2);
+      mouseY.set(e.clientY - window.innerHeight / 2);
+    };
+    window.addEventListener("mousemove", fn);
+    return () => window.removeEventListener("mousemove", fn);
+  }, [mouseX, mouseY]);
+
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 grid grid-cols-[1fr_auto] gap-8 items-center min-h-screen py-20">
+
+        {/* LEFT — text */}
+        <div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            className="flex items-center gap-3 mb-8">
+            <div className="w-8 h-px bg-indigo-400/40" />
+            <span className="text-xs text-indigo-300/50 uppercase tracking-[0.3em]">Portfolio 2026</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 60, filter: "blur(20px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="font-black tracking-tighter text-white leading-[0.85] mb-6"
+            style={{ fontSize: "clamp(4rem,9vw,8rem)" }}
+          >
+            Naman<br />Singh
+          </motion.h1>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
+            className="space-y-1 mb-8">
+            {["Performance Marketer", "Growth Strategist", "Building brands through scalable digital systems"].map((line, i) => (
+              <motion.p key={i}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.9 + i * 0.1 }}
+                className={i < 2 ? "text-lg font-semibold text-indigo-300/80" : "text-sm text-white/30 mt-3 max-w-xs leading-relaxed"}
+              >{line}</motion.p>
+            ))}
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
+            className="grid grid-cols-3 gap-4 max-w-sm mb-8">
+            {[{ n: "7+", l: "Years" }, { n: "50+", l: "Clients" }, { n: "200+", l: "Campaigns" }].map((s, i) => (
+              <div key={s.l} className="border border-indigo-500/15 rounded-xl p-3 text-center bg-indigo-500/5">
+                <div className="text-2xl font-black text-white">{s.n}</div>
+                <div className="text-[9px] text-white/30 uppercase tracking-widest">{s.l}</div>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.5 }}
+            className="flex flex-wrap gap-2">
+            {["Google Ads", "Meta Ads", "SEO & GEO", "LinkedIn", "AI Marketing", "Govt of India"].map((tag, i) => (
+              <span key={tag} className="text-[10px] text-indigo-300/50 border border-indigo-500/15 px-3 py-1 rounded-full bg-indigo-500/5">
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* RIGHT — photo + orbits */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ rotateX: rotX, rotateY: rotY, perspective: 1000, width: 320, height: 420 }}
+          className="relative flex-shrink-0"
+        >
+          <div className="relative" style={{ width: 320, height: 420 }}>
+            {/* Outer orbit ring */}
+            <div className="absolute rounded-full border border-indigo-500/10 pointer-events-none"
+              style={{ inset: "-70px", borderRadius: "50%" }} />
+            {/* Inner orbit ring */}
+            <div className="absolute rounded-full border border-purple-500/8 pointer-events-none"
+              style={{ inset: "-20px", borderRadius: "50%" }} />
+
+            {/* Glow behind photo */}
+            <div className="absolute inset-0 rounded-2xl"
+              style={{ boxShadow: "0 0 80px rgba(99,102,241,0.2), 0 0 40px rgba(139,92,246,0.15)", borderRadius: "16px" }} />
+
+            {/* Platform icons orbiting */}
+            {platforms.map((p, i) => (
+              <div key={i} className="orbit-icon"
+                style={{ "--r": p.r, "--start": p.start, "--dur": p.dur, "--delay": "0s", top: "50%", left: "50%" } as React.CSSProperties}>
+                <div className="w-10 h-10 rounded-full bg-[#0a0f2e] border border-indigo-500/25 flex items-center justify-center p-2.5 glow-pulse"
+                  style={{ boxShadow: "0 0 12px rgba(99,102,241,0.3)" }}>
+                  <img src={p.src} alt={p.alt} className="w-full h-full object-contain opacity-80" />
+                </div>
+              </div>
+            ))}
+
+            {/* Photo */}
+            <div className="relative w-full h-full rounded-2xl overflow-hidden border border-indigo-500/15"
+              style={{ boxShadow: "inset 0 0 40px rgba(99,102,241,0.1)" }}>
+              <Image src="/naman-photo.jpg" alt="Naman Singh" fill className="object-cover object-top" priority
+                style={{ mixBlendMode: "luminosity", filter: "contrast(1.05) brightness(0.9)" }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050816] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050816]/30 via-transparent to-transparent" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Scroll cue */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-[9px] text-white/20 uppercase tracking-[0.3em]">Scroll</span>
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8 }}
+          className="w-px h-10 bg-gradient-to-b from-indigo-400/40 to-transparent" />
+      </motion.div>
+    </section>
+  );
+}
+
+// ── SCROLL GRAPH ───────────────────────────────────────────────────────────────
+function ScrollGraph() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div ref={ref} className="absolute left-12 top-0 bottom-0 w-1 pointer-events-none hidden md:block" style={{ zIndex: 1 }}>
+      <svg className="w-full h-full" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#6366f1" stopOpacity="0" />
+            <stop offset="30%" stopColor="#6366f1" stopOpacity="0.8" />
+            <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.4" />
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+        <motion.line x1="2" y1="0" x2="2" y2="100%"
+          stroke="url(#lineGrad)" strokeWidth="2"
+          filter="url(#glow)"
+          style={{ pathLength }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+// ── TICKER ─────────────────────────────────────────────────────────────────────
+function Ticker() {
+  const items = ["Performance Marketing","·","Google Ads","·","Meta Ads","·","SEO & GEO","·","LinkedIn","·","CRO","·","GA4","·","AI Marketing","·","Govt of India","·","B2B Global","·","Growth Strategy","·","Marketing Automation","·","Performance Marketing","·","Google Ads","·","Meta Ads","·","SEO & GEO","·","LinkedIn","·","CRO","·","GA4","·","AI Marketing","·","Govt of India","·","B2B Global","·","Growth Strategy","·","Marketing Automation","·"];
+  return (
+    <div className="py-3 border-y border-indigo-500/8 overflow-hidden bg-indigo-500/[0.02]">
+      <div className="flex ticker-track whitespace-nowrap">
+        {items.map((t, i) => (
+          <span key={i} className="text-[10px] text-indigo-300/25 uppercase tracking-widest mx-4">{t}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── ABOUT ──────────────────────────────────────────────────────────────────────
+function About() {
+  return (
+    <section className="relative py-32 px-8 md:px-20">
+      <div className="max-w-3xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-2 h-2 rounded-full bg-indigo-400 glow-pulse" />
+            <span className="text-xs text-indigo-300/40 uppercase tracking-[0.3em]">About</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight tracking-tight">
+            I build marketing<br /><span className="text-indigo-400/70">systems that scale.</span>
+          </h2>
+          <p className="text-base text-white/40 leading-relaxed mb-4">
+            I&apos;m Naman Singh — a growth marketer who solves hard growth challenges and builds marketing systems that create real, measurable business impact.
+          </p>
+          <p className="text-base text-white/25 leading-relaxed mb-4">
+            Over 7 years, I&apos;ve worked across startups, global B2B brands, government projects, healthcare, real estate, and e-commerce — managing everything from strategy to execution to scaling.
+          </p>
+          <p className="text-sm text-white/18 leading-relaxed">
+            Strong focus on ROI, AI-driven marketing, and Generative Engine Optimization (GEO) — the next frontier of search.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ── EXPERIENCE ─────────────────────────────────────────────────────────────────
 const jobs = [
-  { co: "Social Musketeers", role: "Head of Marketing", period: "Feb 2022 – Present", tags: ["Govt of India","SaaS","B2B Global","Healthcare","Real Estate"] },
-  { co: "Vinra Group", role: "Digital Marketing Manager", period: "Jun 2020 – Jan 2022", tags: ["Google Ads","SEO","Meta","CRO"] },
-  { co: "Comm8 Digital", role: "Marketing Executive", period: "Feb 2019 – May 2020", tags: ["Lead Gen","Social","PPC"] },
+  { co: "Social Musketeers", role: "Head of Marketing", period: "Feb 2022 – Present", desc: "Led end-to-end marketing for SaaS, healthcare, real estate & e-commerce. Worked on Government of India projects and global B2B clients.", tags: ["Govt of India","SaaS","B2B Global","Healthcare"] },
+  { co: "Vinra Group",       role: "Digital Marketing Manager", period: "Jun 2020 – Jan 2022", desc: "Managed Google, Meta, YouTube & LinkedIn Ads. Built conversion funnels and drove organic growth through technical SEO.", tags: ["Google Ads","Meta Ads","SEO","CRO"] },
+  { co: "Comm8 Digital",     role: "Marketing Executive", period: "Feb 2019 – May 2020", desc: "Lead generation across Facebook, Instagram & LinkedIn. Optimized Google Ads and SEO campaigns for CTR improvements.", tags: ["Lead Gen","Social","PPC"] },
 ];
+
+function Experience() {
+  return (
+    <section className="relative py-24 px-8 md:px-20">
+      <div className="max-w-3xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2 h-2 rounded-full bg-purple-400 glow-pulse" />
+            <span className="text-xs text-purple-300/40 uppercase tracking-[0.3em]">Experience</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight">
+            7 years.<br /><span className="text-white/20">No fluff.</span>
+          </h2>
+        </motion.div>
+
+        <div className="space-y-4">
+          {jobs.map((j, i) => (
+            <motion.div key={j.co}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.7 }}
+              className="border border-indigo-500/10 rounded-2xl p-6 bg-indigo-500/[0.03] hover:bg-indigo-500/[0.06] transition-colors group"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <div className="text-base font-black text-white group-hover:text-indigo-200 transition-colors">{j.co}</div>
+                  <div className="text-xs text-white/35">{j.role} <span className="text-white/18">· {j.period}</span></div>
+                </div>
+                <div className="w-2 h-2 rounded-full bg-indigo-400/40 mt-1 group-hover:bg-indigo-400 transition-colors glow-pulse" />
+              </div>
+              <p className="text-xs text-white/25 leading-relaxed mb-3">{j.desc}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {j.tags.map(t => (
+                  <span key={t} className="text-[9px] text-indigo-300/40 border border-indigo-500/15 px-2.5 py-1 rounded-full">{t}</span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Featured project */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+          className="mt-4 border border-purple-500/20 rounded-2xl p-6 bg-gradient-to-r from-indigo-500/10 to-purple-500/10">
+          <div className="text-[9px] text-purple-300/50 uppercase tracking-widest mb-2">Featured Project</div>
+          <div className="text-lg font-black text-white mb-1">Government LPG Campaign — Tier 2 India</div>
+          <div className="text-sm text-white/35">Reached 2–3 million people through regional mobile-first campaigns</div>
+          <div className="text-4xl font-black text-purple-400/20 mt-3">2-3M</div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ── SKILLS ─────────────────────────────────────────────────────────────────────
+const skills = [
+  { label: "Performance Marketing", pct: 95 },
+  { label: "SEO & GEO", pct: 90 },
+  { label: "Paid Social (Meta/LinkedIn)", pct: 88 },
+  { label: "B2B Lead Generation", pct: 85 },
+  { label: "Marketing Automation", pct: 80 },
+  { label: "AI-driven Campaigns", pct: 82 },
+  { label: "Analytics & Reporting", pct: 92 },
+  { label: "CRO & Funnel Optimization", pct: 87 },
+];
+
+function Skills() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const bars = el.querySelectorAll<HTMLElement>(".skill-bar");
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        bars.forEach((b, i) => setTimeout(() => b.classList.add("filled"), i * 80));
+        obs.disconnect();
+      }
+    }, { threshold: 0.2 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section ref={ref} className="relative py-24 px-8 md:px-20">
+      <div className="max-w-3xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2 h-2 rounded-full bg-indigo-400 glow-pulse" />
+            <span className="text-xs text-indigo-300/40 uppercase tracking-[0.3em]">Skills</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight">
+            What I&apos;m<br /><span className="text-white/20">great at.</span>
+          </h2>
+        </motion.div>
+
+        <div className="space-y-5">
+          {skills.map((s, i) => (
+            <motion.div key={s.label} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}>
+              <div className="flex justify-between mb-1.5">
+                <span className="text-xs text-white/45">{s.label}</span>
+                <span className="text-xs text-indigo-300/40 font-mono">{s.pct}%</span>
+              </div>
+              <div className="h-px bg-white/5 relative overflow-hidden rounded-full">
+                <div className="skill-bar h-full rounded-full" style={{ "--w": `${s.pct}%`, animationDelay: `${i * 80}ms`, background: "linear-gradient(90deg, #6366f1, #8b5cf6)" } as React.CSSProperties} />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Platform grid */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="mt-12">
+          <p className="text-xs text-white/18 uppercase tracking-widest mb-4">Platforms</p>
+          <div className="flex flex-wrap gap-2">
+            {["Google Ads","Meta Ads","LinkedIn Ads","GA4","Search Console","Tag Manager","Looker Studio","WordPress","HubSpot","Shopify"].map(p => (
+              <span key={p} className="text-[10px] text-white/30 border border-white/8 px-3 py-1.5 rounded-full bg-white/[0.02] hover:border-indigo-500/30 hover:text-indigo-300/50 transition-colors">{p}</span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ── RESULTS / GROWTH ───────────────────────────────────────────────────────────
+const metrics = [
+  { n: "8.4×", l: "ROAS", s: "E-commerce, 6-month campaign" },
+  { n: "42%",  l: "CAC Reduction", s: "SaaS startup via funnel optimization" },
+  { n: "12K+", l: "Leads Generated", s: "Real estate B2B pipeline" },
+  { n: "14",   l: "Countries", s: "Across APAC, EU & MENA" },
+  { n: "210%", l: "Organic Growth", s: "SEO overhaul, 12 months" },
+  { n: "2-3M", l: "People Reached", s: "Govt of India campaign" },
+];
+
+function Results() {
+  return (
+    <section className="relative py-24 px-8 md:px-20">
+      <div className="max-w-3xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2 h-2 rounded-full bg-purple-400 glow-pulse" />
+            <span className="text-xs text-purple-300/40 uppercase tracking-[0.3em]">Results</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight">
+            Growth that<br /><span className="text-white/20">shows in data.</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-indigo-500/5">
+          {metrics.map((m, i) => (
+            <motion.div key={m.l}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="bg-[#050816] p-6 group hover:bg-indigo-500/[0.05] transition-colors"
+            >
+              <div className="text-4xl font-black text-white mb-1 group-hover:text-indigo-300 transition-colors">{m.n}</div>
+              <div className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-1">{m.l}</div>
+              <div className="text-[9px] text-white/15">{m.s}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── MEMES ──────────────────────────────────────────────────────────────────────
 const memes = [
   { e: "☕", t: "Client: Cut CAC by 50%", p: "Me: opens 17 tabs, survives on coffee" },
   { e: "📈", t: "POV: ROAS spikes at 2 AM", p: "Scaling campaigns in pyjamas" },
   { e: "💸", t: "Google Ads at 11 PM:", p: "\"Limited by budget\"" },
   { e: "🌱", t: "SEO after 4 months of grinding:", p: "Ranking. Finally." },
 ];
-const chartBars = [22,32,26,48,42,60,55,72,68,85,100];
-const screenshots = [
-  { src: "/ss1.jpg", label: "Google Ads" },
-  { src: "/ss2.jpg", label: "Meta Ads" },
-  { src: "/ss3.jpg", label: "Analytics" },
-  { src: "/ss4.jpg", label: "Campaign" },
-  { src: "/ss5.jpg", label: "Report" },
-];
-
-function Cursor() {
-  const x = useMotionValue(-100), y = useMotionValue(-100);
-  const sx = useSpring(x,{stiffness:600,damping:30}), sy = useSpring(y,{stiffness:600,damping:30});
-  useEffect(()=>{
-    const fn=(e:MouseEvent)=>{x.set(e.clientX);y.set(e.clientY);};
-    window.addEventListener("mousemove",fn);
-    return ()=>window.removeEventListener("mousemove",fn);
-  },[x,y]);
-  return <motion.div style={{left:sx,top:sy,translateX:"-50%",translateY:"-50%"}} className="fixed w-6 h-6 rounded-full border border-black/25 pointer-events-none z-[9999] mix-blend-multiply"/>;
-}
-
-function Nav() {
-  const [s,setS]=useState(false);
-  useEffect(()=>{const fn=()=>setS(window.scrollY>60);window.addEventListener("scroll",fn);return()=>window.removeEventListener("scroll",fn);},[]);
-  return (
-    <motion.nav initial={{y:-60,opacity:0}} animate={{y:0,opacity:1}} transition={{duration:0.5}}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${s?"bg-white/85 backdrop-blur-xl border-b border-black/5":""}`}>
-      <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
-        <span className="text-xs font-black tracking-[0.35em] text-black/30 uppercase">NS</span>
-        <div className="hidden md:flex items-center gap-8">
-          {["Work","Proof","Contact"].map(i=>(
-            <a key={i} href={`#${i.toLowerCase()}`} className="text-xs text-black/30 hover:text-black transition-colors uppercase tracking-widest">{i}</a>
-          ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse"/>
-          <span className="text-xs text-black/25">Available</span>
-        </div>
-      </div>
-    </motion.nav>
-  );
-}
-
-
-// Hero — centered photo, NAMAN above / SINGH below, platform icons orbiting around
-
-// Hero — asymmetric: text LEFT, photo CENTER floating, tags RIGHT, icons orbiting photo
-function Hero() {
-  const platforms = [
-    { src: "/google.svg",    alt: "Google",     r: "145px", start:   "0deg", dur: "16s" },
-    { src: "/facebook.svg",  alt: "Facebook",   r: "145px", start:  "60deg", dur: "16s" },
-    { src: "/instagram.svg", alt: "Instagram",  r: "145px", start: "120deg", dur: "16s" },
-    { src: "/linkedin.svg",  alt: "LinkedIn",   r: "145px", start: "180deg", dur: "16s" },
-    { src: "/youtube.svg",   alt: "YouTube",    r: "145px", start: "240deg", dur: "16s" },
-    { src: "/googleads.svg", alt: "Google Ads", r: "145px", start: "300deg", dur: "16s" },
-  ];
-
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#f5f4f0]">
-
-      {/* Decorative background assets */}
-      {/* Dotted grid top-right */}
-      <div className="absolute top-16 right-12 w-40 h-40 opacity-[0.07] pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "14px 14px" }} />
-      {/* Dotted grid bottom-left */}
-      <div className="absolute bottom-20 left-10 w-32 h-32 opacity-[0.05] pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "12px 12px" }} />
-      {/* Gradient orb top-left */}
-      <div className="absolute top-20 left-20 w-64 h-64 rounded-full opacity-20 pointer-events-none float-a"
-        style={{ background: "radial-gradient(circle, rgba(0,0,0,0.06) 0%, transparent 70%)", "--rot": "0deg" } as React.CSSProperties} />
-      {/* Gradient orb bottom-right */}
-      <div className="absolute bottom-16 right-20 w-80 h-80 rounded-full opacity-15 pointer-events-none float-b"
-        style={{ background: "radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%)", "--rot": "0deg" } as React.CSSProperties} />
-      {/* Thin arc line */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-dashed border-black/[0.04] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-dashed border-black/[0.04] pointer-events-none" />
-
-      {/* Main 3-column grid */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 grid grid-cols-[1fr_auto_1fr] items-center gap-8 min-h-screen py-24">
-
-        {/* LEFT — name + subtitle */}
-        <div className="flex flex-col justify-center">
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-            className="flex items-center gap-3 mb-6">
-            <div className="h-px w-8 bg-black/18" />
-            <span className="text-xs text-black/30 uppercase tracking-[0.2em]">Portfolio 2026</span>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-black tracking-tighter text-black leading-[0.85]" style={{ fontSize: "clamp(4rem,8vw,7rem)" }}>
-              NAMAN<br />SINGH
-            </h1>
-          </motion.div>
-
-          <motion.p initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55 }}
-            className="text-sm text-black/45 mt-5 mb-3 font-medium leading-relaxed max-w-xs">
-            Growth Marketer scaling brands through performance marketing, SEO, GEO & AI-driven growth.
-          </motion.p>
-
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65 }}
-            className="text-xs text-black/22 italic mb-8 max-w-xs leading-relaxed">
-            &ldquo;Calm mind. Sharp strategy. The best growth comes when you stop chasing.&rdquo;
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }} className="flex flex-col gap-2">
-            <a href="#work" className="inline-flex items-center gap-2 bg-black text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-black/75 transition-all w-fit">
-              View Work <ArrowUpRight size={11} />
-            </a>
-            <a href="/naman-resume.pdf" target="_blank" className="inline-flex items-center gap-2 border border-black/12 text-black/50 text-xs px-5 py-2.5 rounded-full hover:border-black/28 hover:text-black transition-all w-fit">
-              <Download size={11} /> Download Resume
-            </a>
-            <a href="mailto:Namanworks7@gmail.com" className="inline-flex items-center gap-2 border border-black/12 text-black/50 text-xs px-5 py-2.5 rounded-full hover:border-black/28 hover:text-black transition-all w-fit">
-              <Mail size={11} /> Let&apos;s Build Growth
-            </a>
-          </motion.div>
-
-          {/* Floating stat pills bottom-left */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
-            className="mt-10 flex flex-col gap-2">
-            {[{ n: "7+", l: "Years Experience" }, { n: "50+", l: "Global Clients" }, { n: "200+", l: "Campaigns" }].map((s) => (
-              <div key={s.l} className="flex items-center gap-3 bg-white/70 border border-black/6 rounded-full px-4 py-2 w-fit shadow-sm float-a" style={{ "--rot": "0deg" } as React.CSSProperties}>
-                <span className="text-sm font-black text-black">{s.n}</span>
-                <span className="text-xs text-black/35">{s.l}</span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* CENTER — photo with orbiting icons */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex-shrink-0"
-          style={{ width: 280, height: 460 }}
-        >
-          {/* Orbit rings */}
-          <div className="absolute rounded-full border border-dashed border-black/10 pointer-events-none"
-            style={{ inset: "-52px", borderRadius: "50%" }} />
-
-          {/* Platform icons orbiting */}
-          {platforms.map((p) => (
-            <div key={p.alt} className="orbit-icon"
-              style={{ "--r": p.r, "--start": p.start, "--dur": p.dur, "--delay": "0s", top: "50%", left: "50%" } as React.CSSProperties}>
-              <div className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-black/5 flex items-center justify-center p-2.5">
-                <img src={p.src} alt={p.alt} className="w-full h-full object-contain" />
-              </div>
-            </div>
-          ))}
-
-          {/* Photo — mix-blend-multiply removes white bg visually */}
-          <div className="relative w-full h-full overflow-hidden rounded-3xl" style={{ mixBlendMode: "multiply" }}>
-            <Image src="/naman-photo.jpg" alt="Naman Singh" fill className="object-cover object-top" priority />
-          </div>
-        </motion.div>
-
-        {/* RIGHT — floating info tags */}
-        <div className="flex flex-col justify-center items-start gap-4">
-          {[
-            { icon: MapPin, label: "Bangalore, India", delay: 0.7 },
-          ].map((tag) => (
-            <motion.div key={tag.label} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: tag.delay }}
-              className="flex items-center gap-2 bg-white/70 border border-black/6 rounded-full px-4 py-2 shadow-sm float-b w-fit" style={{ "--rot": "0deg" } as React.CSSProperties}>
-              <tag.icon size={11} className="text-black/35" />
-              <span className="text-xs text-black/50">{tag.label}</span>
-            </motion.div>
-          ))}
-
-          {/* Platform name pills */}
-          {[
-            { label: "Google Ads", delay: 0.8, color: "bg-[#fff8f0]" },
-            { label: "Meta Ads", delay: 0.9, color: "bg-[#f0f4ff]" },
-            { label: "SEO & GEO", delay: 1.0, color: "bg-[#f0fff4]" },
-            { label: "LinkedIn Ads", delay: 1.1, color: "bg-[#f5f0ff]" },
-            { label: "GA4 · Analytics", delay: 1.2, color: "bg-[#fff0f5]" },
-            { label: "AI Marketing", delay: 1.3, color: "bg-white" },
-          ].map((tag) => (
-            <motion.div key={tag.label} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: tag.delay }}
-              className={`${tag.color} border border-black/6 rounded-full px-4 py-2 shadow-sm float-a w-fit`} style={{ "--rot": "0deg" } as React.CSSProperties}>
-              <span className="text-xs font-medium text-black/50">{tag.label}</span>
-            </motion.div>
-          ))}
-
-          {/* Govt badge */}
-          <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.4 }}
-            className="bg-black text-white rounded-xl px-4 py-3 shadow-md float-b w-fit" style={{ "--rot": "0deg" } as React.CSSProperties}>
-            <div className="text-[9px] text-white/50 uppercase tracking-widest mb-0.5">Featured</div>
-            <div className="text-xs font-bold">Govt of India Project</div>
-            <div className="text-[9px] text-white/45">2-3M people reached</div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Scroll cue */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <motion.div animate={{ scaleY: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-transparent via-black/20 to-transparent" />
-      </motion.div>
-    </section>
-  );
-}
-
-function Ticker() {
-  return (
-    <div className="py-3.5 border-y border-black/6 overflow-hidden bg-black/[0.01]">
-      <div className="flex ticker-track whitespace-nowrap">
-        {tickerItems.map((t,i)=>(
-          <span key={i} className="text-[10px] text-black/22 uppercase tracking-widest mx-3">{t}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Stats() {
-  const items = [
-    {n:"7+",l:"Years"},{n:"50+",l:"Clients"},{n:"3×",l:"ROI"},{n:"2-3M",l:"Reached"},{n:"14",l:"Countries"},{n:"200+",l:"Campaigns"}
-  ];
-  return (
-    <section className="relative py-20 overflow-hidden border-b border-black/5">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span className="text-[20vw] font-black text-black/[0.02] tracking-tighter select-none leading-none">RESULTS</span>
-      </div>
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-black/5">
-          {items.map((s,i)=>(
-            <motion.div key={s.l} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.07}}
-              className="bg-[#f5f4f0] py-10 px-4 text-center group hover:bg-white transition-colors cursor-default">
-              <div className="text-3xl md:text-4xl font-black text-black mb-1.5 group-hover:scale-110 transition-transform duration-300 origin-bottom">{s.n}</div>
-              <div className="text-[9px] text-black/28 uppercase tracking-widest">{s.l}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function About() {
-  return (
-    <section className="py-24 px-6 border-b border-black/5">
-      <div className="max-w-3xl mx-auto text-center">
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} className="mb-10">
-          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">About</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-2 mb-6 leading-none tracking-tight">Who I am.<br/><span className="text-black/22">What I do.</span></h2>
-          <p className="text-sm text-black/50 leading-relaxed mb-3">I&apos;m Naman Singh — a growth marketer who solves growth challenges and builds marketing systems that create real business impact.</p>
-          <p className="text-sm text-black/35 leading-relaxed mb-3">7 years across startups, global clients, government projects, healthcare, real estate, and B2B businesses.</p>
-          <p className="text-sm text-black/25 leading-relaxed">Strong focus on ROI, AI-driven marketing, and Generative Engine Optimization (GEO).</p>
-        </motion.div>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-black/5">
-          {[{icon:BarChart3,l:"Perf. Marketing"},{icon:Globe2,l:"SEO & GEO"},{icon:Target,l:"CRO & Lead Gen"},{icon:TrendingUp,l:"Growth Strategy"},{icon:Brain,l:"AI Marketing"},{icon:Zap,l:"Automation"}].map((sk,i)=>(
-            <motion.div key={sk.l} initial={{opacity:0,y:10}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.07}}
-              className="bg-[#f5f4f0] p-4 flex flex-col items-center text-center group hover:bg-white transition-colors">
-              <sk.icon size={15} className="text-black/22 mb-2 group-hover:text-black/50 transition-colors"/>
-              <div className="text-[9px] font-semibold text-black/40">{sk.l}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Screenshots() {
-  const rots = [-4,3,-2,4,-3];
-  const floats = ["float-a","float-b","float-a","float-b","float-a"];
-  const positions = [
-    {left:"0%",top:"8%"},{left:"20%",top:"40%"},{left:"40%",top:"4%"},
-    {left:"60%",top:"32%"},{left:"78%",top:"12%"}
-  ];
-  return (
-    <section id="proof" className="py-24 px-6 border-b border-black/5 overflow-hidden">
-      <div className="max-w-6xl mx-auto">
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} className="mb-16">
-          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Proof of Work</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-2 leading-none tracking-tight">Real campaigns,<br/><span className="text-black/22">real results.</span></h2>
-        </motion.div>
-        <div className="relative h-[340px] md:h-[320px]">
-          {screenshots.map((ss,i)=>(
-            <motion.div key={i}
-              initial={{opacity:0,y:60}}
-              whileInView={{opacity:1,y:0}}
-              viewport={{once:true}}
-              transition={{delay:i*0.1,duration:0.7,ease:[0.16,1,0.3,1]}}
-              whileHover={{scale:1.08,zIndex:20}}
-              className={`${floats[i]} absolute group cursor-pointer`}
-              style={{"--rot":`${rots[i]}deg`,...positions[i],zIndex:i+1} as React.CSSProperties}
-            >
-              <motion.div animate={{rotate:rots[i]}} className="w-40 md:w-48 rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-black/6 bg-white">
-                <Image src={ss.src} alt={ss.label} width={192} height={120} className="w-full h-28 object-cover object-top grayscale-[15%] group-hover:grayscale-0 transition-all duration-500"/>
-                <div className="px-3 py-2"><span className="text-[9px] text-black/35 uppercase tracking-widest">{ss.label}</span></div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ChartBars() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(()=>{
-    const el=ref.current;if(!el)return;
-    const bars=el.querySelectorAll<HTMLElement>(".bar");
-    const obs=new IntersectionObserver(entries=>{
-      if(entries[0].isIntersecting){bars.forEach((b,i)=>setTimeout(()=>b.classList.add("visible"),i*55));obs.disconnect();}
-    },{threshold:0.35});
-    obs.observe(el);return()=>obs.disconnect();
-  },[]);
-  return (
-    <div ref={ref}>
-      <div className="flex items-end gap-1.5 h-24 border-b border-black/8">
-        {chartBars.map((h,i)=>(
-          <div key={i} className={`bar flex-1 rounded-t-sm ${i===chartBars.length-1?"bg-black":"bg-black/14 hover:bg-black/28 transition-colors"}`}
-            style={{height:`${h}%`,animationDelay:`${i*55}ms`}}/>
-        ))}
-      </div>
-      <div className="flex items-center gap-1.5 mt-2">
-        <TrendingUp size={10} className="text-black/18"/>
-        <span className="text-[9px] text-black/18 uppercase tracking-widest">Campaign ROI growth — last bar is now</span>
-      </div>
-    </div>
-  );
-}
-
-function Work() {
-  return (
-    <section id="work" className="py-24 px-6 border-b border-black/5">
-      <div className="max-w-3xl mx-auto">
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} className="text-center mb-10">
-          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Experience</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-2 leading-none tracking-tight">7 years.<br/><span className="text-black/22">No fluff.</span></h2>
-        </motion.div>
-        <motion.div initial={{opacity:0}} whileInView={{opacity:1}} viewport={{once:true}} transition={{delay:0.15}} className="mb-10">
-          <ChartBars/>
-        </motion.div>
-        <div className="space-y-px bg-black/5">
-          {jobs.map((j,i)=>(
-            <motion.div key={j.co} initial={{opacity:0,y:10}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1}}
-              className="bg-[#f5f4f0] px-6 py-5 hover:bg-white transition-colors group">
-              <div className="flex items-start justify-between gap-4 mb-2">
-                <div>
-                  <div className="text-sm font-black text-black">{j.co}</div>
-                  <div className="text-xs text-black/32">{j.role} <span className="text-black/18">· {j.period}</span></div>
-                </div>
-                <ArrowUpRight size={14} className="text-black/8 group-hover:text-black/30 transition-colors flex-shrink-0 mt-0.5"/>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {j.tags.map(t=>(
-                  <span key={t} className="text-[9px] text-black/28 border border-black/8 px-2.5 py-1 rounded-full">{t}</span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:0.2}} className="mt-px">
-          <div className="bg-black px-6 py-5 flex items-center justify-between gap-4">
-            <div>
-              <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">Featured Project</div>
-              <div className="text-sm font-black text-white">Government LPG Campaign — Tier 2 India</div>
-              <div className="text-xs text-white/45 mt-0.5">Reached 2–3 million people through regional mobile-friendly campaigns</div>
-            </div>
-            <div className="text-3xl font-black text-white/18 flex-shrink-0">2-3M</div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
 function Memes() {
   return (
-    <section className="py-24 px-6 border-b border-black/5 overflow-hidden relative">
+    <section className="relative py-24 px-8 md:px-20 overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span className="text-[18vw] font-black text-black/[0.016] tracking-tighter select-none leading-none">MEMES</span>
+        <span className="text-[20vw] font-black text-white/[0.012] tracking-tighter select-none leading-none">MEMES</span>
       </div>
       <div className="max-w-3xl mx-auto relative z-10">
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} className="text-center mb-12">
-          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Because why not</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-2 leading-none tracking-tight">Marketer brain.<br/><span className="text-black/22">Never off.</span></h2>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">Marketer brain.<br /><span className="text-white/20">Never off.</span></h2>
+          <p className="text-xs text-white/18 mt-2">Because data isn&apos;t the only thing that speaks</p>
         </motion.div>
-        <div className="grid grid-cols-2 gap-px bg-black/5">
-          {memes.map((m,i)=>(
-            <motion.div key={i} initial={{opacity:0,scale:0.96}} whileInView={{opacity:1,scale:1}} viewport={{once:true}} transition={{delay:i*0.08}}
-              whileHover={{scale:1.02,backgroundColor:"rgba(255,255,255,0.8)"}}
-              className="bg-[#f5f4f0] p-6 cursor-default transition-all duration-300">
-              <div className="text-4xl mb-4 float-a">{m.e}</div>
-              <p className="text-xs text-black/40 leading-relaxed mb-3">{m.t}</p>
-              <div className="inline-block border border-black/8 rounded-full px-3 py-1 text-[10px] text-black/48 bg-white/60">{m.p}</div>
+        <div className="grid grid-cols-2 gap-px bg-indigo-500/5">
+          {memes.map((m, i) => (
+            <motion.div key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#050816] p-6 cursor-default transition-all hover:bg-indigo-500/[0.04]"
+            >
+              <div className="text-4xl mb-4 float">{m.e}</div>
+              <p className="text-xs text-white/35 leading-relaxed mb-3">{m.t}</p>
+              <div className="inline-block border border-indigo-500/15 rounded-full px-3 py-1 text-[10px] text-indigo-300/40 bg-indigo-500/[0.04]">{m.p}</div>
             </motion.div>
           ))}
         </div>
-        <p className="text-center text-[9px] text-black/14 mt-5 italic">* No client KPIs were harmed in the making of these memes.</p>
       </div>
     </section>
   );
 }
 
-function Contact() {
+// ── AI SECTION ─────────────────────────────────────────────────────────────────
+function AISection() {
   return (
-    <section id="contact" className="py-32 px-6">
-      <div className="max-w-lg mx-auto text-center">
-        <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true}}>
-          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Let&apos;s talk</span>
-          <h2 className="text-5xl md:text-7xl font-black text-black mt-2 mb-4 leading-none tracking-tighter">Hit<br/>me up.</h2>
-          <p className="text-black/30 text-sm mb-8 leading-relaxed">
-            B2B, startup, or government project — if you need growth, you need me.<br/>
-            <span className="text-black/18">If not... still reach out 😄</span>
-          </p>
-          <div className="space-y-3 text-left">
-            <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{scale:1.015}} whileTap={{scale:0.985}}
-              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/60 hover:bg-white transition-all rounded-2xl">
-              <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center flex-shrink-0"><Mail size={13} className="text-white"/></div>
-              <div>
-                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Email</div>
-                <div className="text-sm font-semibold text-black">Namanworks7@gmail.com</div>
-              </div>
-              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors"/>
-            </motion.a>
-            <motion.a href="tel:+919695624105" whileHover={{scale:1.015}} whileTap={{scale:0.985}}
-              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/60 hover:bg-white transition-all rounded-2xl">
-              <div className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><Phone size={13} className="text-black/45"/></div>
-              <div>
-                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Phone</div>
-                <div className="text-sm font-semibold text-black">+91 96956 24105</div>
-              </div>
-              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors"/>
-            </motion.a>
-            <motion.a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank" whileHover={{scale:1.015}} whileTap={{scale:0.985}}
-              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/60 hover:bg-white transition-all rounded-2xl">
-              <div className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0">
-                <img src="/linkedin.svg" alt="LinkedIn" className="w-5 h-5"/>
-              </div>
-              <div>
-                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">LinkedIn</div>
-                <div className="text-sm font-semibold text-black">linkedin.com/in/naman-singh</div>
-              </div>
-              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors"/>
-            </motion.a>
+    <section className="relative py-24 px-8 md:px-20">
+      <div className="max-w-3xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2 h-2 rounded-full bg-purple-400 glow-pulse" />
+            <span className="text-xs text-purple-300/40 uppercase tracking-[0.3em]">AI & Future</span>
           </div>
-          <div className="flex items-center justify-center gap-2 mt-6">
-            <MapPin size={10} className="text-black/22"/>
-            <span className="text-xs text-black/22">Bangalore, India</span>
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-5 leading-tight">Marketing is<br /><span className="text-white/20">changing fast.</span></h2>
+          <p className="text-sm text-white/35 leading-relaxed mb-3">I believe AI will completely change how marketing works over the next few years.</p>
+          <p className="text-sm text-white/20 leading-relaxed mb-8">Deeply interested in AI workflows, Generative Engine Optimization (GEO), automation systems, and product-led growth.</p>
+          <div className="flex flex-wrap gap-2">
+            {["GEO","AI Workflows","Marketing Automation","Product-led Growth","Predictive Analytics","AI Copywriting"].map(t => (
+              <span key={t} className="text-[10px] text-purple-300/40 border border-purple-500/15 px-3 py-1.5 rounded-full bg-purple-500/[0.04] hover:border-purple-400/30 hover:text-purple-300/60 transition-colors cursor-default">{t}</span>
+            ))}
           </div>
         </motion.div>
       </div>
@@ -470,31 +516,97 @@ function Contact() {
   );
 }
 
+// ── CONTACT ────────────────────────────────────────────────────────────────────
+function Contact() {
+  return (
+    <section className="relative py-32 px-8 md:px-20 min-h-screen flex items-center">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-96 h-96 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }} />
+      </div>
+
+      <div className="max-w-2xl mx-auto text-center relative z-10">
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }}>
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="w-8 h-px bg-indigo-400/30" />
+            <div className="w-2 h-2 rounded-full bg-indigo-400 glow-pulse" />
+            <div className="w-8 h-px bg-indigo-400/30" />
+          </div>
+
+          <h2 className="font-black text-white tracking-tighter leading-none mb-4" style={{ fontSize: "clamp(3rem,8vw,6rem)" }}>
+            Let&apos;s Build<br /><span className="text-indigo-400/70">Something</span><br />That Scales.
+          </h2>
+          <p className="text-sm text-white/25 mb-12 max-w-sm mx-auto leading-relaxed">
+            B2B brand, startup, or government initiative — if you need growth that actually moves the needle, reach out.
+          </p>
+
+          <div className="flex flex-col items-center gap-3 mb-10">
+            <motion.a href="mailto:Namanworks7@gmail.com"
+              whileHover={{ scale: 1.03, boxShadow: "0 0 30px rgba(99,102,241,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              className="group flex items-center gap-3 bg-indigo-600 text-white font-semibold px-8 py-4 rounded-full transition-all text-sm"
+              style={{ boxShadow: "0 0 20px rgba(99,102,241,0.25)" }}
+            >
+              <Mail size={14} />
+              Reach Out — Namanworks7@gmail.com
+            </motion.a>
+
+            <motion.a href="tel:+919695624105"
+              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-2 text-white/30 text-sm hover:text-white/60 transition-colors"
+            >
+              <Phone size={12} />
+              +91 96956 24105
+            </motion.a>
+
+            <motion.a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank"
+              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-2 text-indigo-300/30 text-sm hover:text-indigo-300/60 transition-colors"
+            >
+              <ExternalLink size={12} />
+              LinkedIn
+            </motion.a>
+          </div>
+
+          <p className="text-[10px] text-white/12 uppercase tracking-widest">Bangalore, India</p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ── FOOTER ─────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="border-t border-black/5 py-6 px-6">
+    <footer className="border-t border-indigo-500/8 py-6 px-8">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <span className="text-xs text-black/14 font-semibold tracking-widest uppercase">Naman Singh</span>
-        <span className="text-[10px] text-black/10">© 2026</span>
+        <span className="text-xs text-white/12 font-semibold tracking-widest uppercase">Naman Singh</span>
+        <span className="text-[10px] text-white/8">© 2026</span>
       </div>
     </footer>
   );
 }
 
+// ── PAGE ───────────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
-    <main className="bg-[#f5f4f0] min-h-screen grain">
-      <Cursor/>
-      <Nav/>
-      <Hero/>
-      <Ticker/>
-      <Stats/>
-      <About/>
-      <Screenshots/>
-      <Work/>
-      <Memes/>
-      <Contact/>
-      <Footer/>
+    <main className="bg-[#050816] min-h-screen relative">
+      <GridBg />
+      <Particles />
+      <Cursor />
+      <Hero />
+      <Ticker />
+      <div className="relative">
+        <ScrollGraph />
+        <About />
+        <Experience />
+        <Skills />
+        <Results />
+        <Memes />
+        <AISection />
+        <Contact />
+      </div>
+      <Footer />
     </main>
   );
 }
