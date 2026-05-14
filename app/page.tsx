@@ -204,6 +204,52 @@ function StatsBar() {
 
 // ─── Proof / Screenshots ──────────────────────────────────────────────────
 
+function ChartBars() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const bars = el.querySelectorAll<HTMLElement>(".bar-animate");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            bars.forEach((bar, i) => {
+              setTimeout(() => bar.classList.add("in-view"), i * 60);
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="mb-14">
+      <div className="flex items-end gap-1.5 h-28 border-b border-white/5">
+        {chartBars.map((b, i) => (
+          <div
+            key={i}
+            className={`bar-animate flex-1 rounded-t-sm ${i === chartBars.length - 1 ? "bg-white" : "bg-white/20 hover:bg-white/40 transition-colors"}`}
+            style={{
+              height: `${b.h}%`,
+              animationDelay: `${i * 60}ms`,
+            }}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-1.5 mt-2">
+        <TrendingUp size={11} className="text-white/18" />
+        <span className="text-[10px] text-white/18">Campaign ROI growth over time — last bar is now</span>
+      </div>
+    </div>
+  );
+}
+
 function ProofSection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -227,25 +273,7 @@ function ProofSection() {
         </motion.div>
 
         {/* Animated bar chart */}
-        <div className="mb-14">
-          <div className="flex items-end gap-1.5 h-28 border-b border-white/5 pb-0">
-            {chartBars.map((b, i) => (
-              <motion.div
-                key={i}
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.55, ease: "easeOut" }}
-                style={{ height: `${b.h}%`, transformOrigin: "bottom" }}
-                className={`flex-1 rounded-t-sm ${i === chartBars.length - 1 ? "bg-white" : "bg-white/18 hover:bg-white/35 transition-colors"}`}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-1.5 mt-2">
-            <TrendingUp size={11} className="text-white/18" />
-            <span className="text-[10px] text-white/18">Campaign ROI growth over time — last bar is now</span>
-          </div>
-        </div>
+        <ChartBars />
 
         {/* Screenshots row 1 */}
         <div className="space-y-4">
