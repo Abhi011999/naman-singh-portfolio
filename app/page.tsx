@@ -71,7 +71,7 @@ function useInView(ref: React.RefObject<Element | null>) {
     obs.observe(ref.current);
     return () => obs.disconnect();
   }, [ref]);
-  return !client || visible; // true on SSR so nothing hidden
+  return !client || visible;
 }
 
 /* ══ BACKGROUND ════════════════════════════════════════════ */
@@ -128,6 +128,38 @@ function GraphLine() {
   );
 }
 
+/* ══ REVEAL WRAPPER ════════════════════════════════════════ */
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const visible = useInView(ref);
+  return (
+    <div ref={ref} className="reveal"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(28px)",
+        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* ══ SECTION HEADER — unified ══════════════════════════════ */
+function SectionHeader({
+  label, title, center = false,
+}: { label: string; title: React.ReactNode; center?: boolean }) {
+  return (
+    <Reveal>
+      <div className={center ? "text-center" : ""}>
+        <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">{label}</span>
+        <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-12 tracking-tighter leading-tight">
+          {title}
+        </h2>
+      </div>
+    </Reveal>
+  );
+}
+
 /* ══ HERO ══════════════════════════════════════════════════ */
 function Hero() {
   return (
@@ -173,7 +205,6 @@ function Hero() {
           {/* RIGHT — photo + orbit */}
           <div className="flex justify-center fade-up fade-up-2">
             <div className="relative" style={{ width: 280, height: 380 }}>
-              {/* Orbit rings */}
               {[260, 330, 400].map((d, i) => (
                 <div key={i} className="absolute rounded-full border border-dashed pointer-events-none"
                   style={{
@@ -183,7 +214,6 @@ function Hero() {
                     borderColor: `rgba(99,102,241,${0.07 - i*0.02})`,
                   }} />
               ))}
-              {/* Orbiting icons */}
               {PLATFORMS.map((p, i) => (
                 <div key={i} className="orbit-icon"
                   style={{
@@ -201,7 +231,6 @@ function Hero() {
                   </div>
                 </div>
               ))}
-              {/* Photo */}
               <div className="relative w-full h-full rounded-2xl overflow-hidden"
                 style={{ boxShadow: "0 0 60px rgba(99,102,241,0.1),0 24px 60px rgba(0,0,0,0.7)" }}>
                 <Image src="/naman-cutout.png" alt="Naman Singh" fill
@@ -227,33 +256,12 @@ function Hero() {
   );
 }
 
-/* ══ REVEAL WRAPPER ════════════════════════════════════════ */
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const visible = useInView(ref);
-  return (
-    <div ref={ref} className="reveal"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(28px)",
-        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-      }}>
-      {children}
-    </div>
-  );
-}
-
 /* ══ EXPERIENCE ════════════════════════════════════════════ */
 function Experience() {
   return (
     <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
       <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">Career</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-12 tracking-tighter leading-tight">
-            7 Years.<br />3 Companies.<br />Real Growth.
-          </h2>
-        </Reveal>
+        <SectionHeader label="Career" title={<>7 Years.<br />3 Companies.<br />Real Growth.</>} />
 
         <div className="grid md:grid-cols-3 gap-5">
           {JOBS.map((j, i) => (
@@ -293,14 +301,9 @@ function Skills() {
   const visible = useInView(ref);
   return (
     <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
-      <div className="max-w-4xl mx-auto">
-        <Reveal>
-          <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">Expertise</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-12 tracking-tighter">
-            What I Do Best
-          </h2>
-        </Reveal>
-        <div ref={ref} className="space-y-7">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader label="Expertise" title="What I Do Best" />
+        <div ref={ref} className="grid md:grid-cols-2 gap-x-16 gap-y-7">
           {SKILLS.map((s, i) => (
             <div key={s.label} className="reveal"
               style={{
@@ -329,12 +332,7 @@ function Results() {
   return (
     <section className="relative z-10 py-24 sm:py-32 px-6 sm:px-10">
       <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">Impact</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-12 tracking-tighter text-center">
-            Numbers Don&apos;t Lie
-          </h2>
-        </Reveal>
+        <SectionHeader label="Impact" title="Numbers Don't Lie" center />
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {RESULTS.map((m, i) => (
@@ -388,12 +386,13 @@ function ProofOfWork() {
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">Proof of Work</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-2 tracking-tighter">
+          <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-2 tracking-tighter leading-tight">
             Real campaigns.<br />Real numbers.
           </h2>
-          <p className="text-xs text-white/20 mb-10">Live dashboards — not mockups.</p>
+          <p className="text-xs text-white/20 mb-12">Live dashboards — not mockups.</p>
         </Reveal>
 
+        {/* 3-col grid — 6th cell balances the last row */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {["/ss1.jpg","/ss2.jpg","/ss3.jpg","/ss4.jpg","/ss5.jpg"].map((src, i) => (
             <Reveal key={i} delay={i * 70}>
@@ -405,6 +404,17 @@ function ProofOfWork() {
               </div>
             </Reveal>
           ))}
+          {/* 6th tile — balances the grid */}
+          <Reveal delay={350}>
+            <div className="rounded-xl aspect-video flex flex-col items-center justify-center gap-2"
+              style={{
+                border: "1px dashed rgba(99,102,241,0.15)",
+                background: "rgba(99,102,241,0.03)",
+              }}>
+              <span className="text-xs text-indigo-400/30 uppercase tracking-widest">More</span>
+              <span className="text-[10px] text-white/15 text-center px-4">Case studies on request</span>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -456,7 +466,7 @@ function Contact() {
 /* ══ FOOTER ════════════════════════════════════════════════ */
 function Footer() {
   return (
-    <footer className="relative z-10 py-10 px-6 text-center border-t text-center"
+    <footer className="relative z-10 py-10 px-6 text-center border-t"
       style={{ borderColor: "rgba(255,255,255,0.04)" }}>
       <div className="text-[9px] text-white/10 uppercase tracking-[0.4em] mb-2">
         Performance Marketer · Bengaluru, India
