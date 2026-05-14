@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Mail, Phone, MapPin, ArrowUpRight, TrendingUp, Globe2, BarChart3, Zap, Users, Target, ChevronDown } from "lucide-react";
+import ProofOfWork from "./components/ProofOfWork";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -275,8 +276,12 @@ function Hero() {
 
 function Stats() {
   return (
-    <section className="py-12 border-y border-white/5">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="relative py-20 border-y border-white/5 overflow-hidden">
+      {/* Big ghost text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[18vw] font-black text-white/[0.015] whitespace-nowrap leading-none tracking-tight">GROWTH</span>
+      </div>
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
           {stats.map((s, i) => (
             <motion.div
@@ -285,9 +290,9 @@ function Stats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-black p-8 text-center"
+              className="bg-black p-8 text-center group hover:bg-white/[0.02] transition-colors"
             >
-              <div className="text-4xl font-black text-white mb-1">{s.value}</div>
+              <div className="text-5xl font-black text-white mb-2 group-hover:scale-105 transition-transform duration-300 origin-bottom">{s.value}</div>
               <div className="text-xs text-white/30 uppercase tracking-widest">{s.label}</div>
             </motion.div>
           ))}
@@ -370,8 +375,12 @@ function Clients() {
 
 function Metrics() {
   return (
-    <section id="metrics" className="py-24 px-6 bg-white/[0.015]">
-      <div className="max-w-6xl mx-auto">
+    <section id="metrics" className="relative py-24 px-6 overflow-hidden">
+      {/* Ghost word */}
+      <div className="absolute inset-0 flex items-end justify-end pointer-events-none select-none overflow-hidden pb-8 pr-4">
+        <span className="text-[15vw] font-black text-white/[0.018] whitespace-nowrap leading-none">ROI</span>
+      </div>
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -393,13 +402,13 @@ function Metrics() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="bg-[#0a0a0a] p-8 group"
+              className="bg-[#0a0a0a] p-8 group hover:bg-white/[0.025] transition-colors duration-300"
             >
               <div className="flex items-start justify-between mb-6">
-                <m.icon size={18} className="text-white/20 group-hover:text-white/40 transition-colors" />
+                <m.icon size={18} className="text-white/20 group-hover:text-white/50 transition-colors" />
                 <ArrowUpRight size={14} className="text-white/10 group-hover:text-white/30 transition-colors" />
               </div>
-              <div className="text-5xl font-black text-white mb-2">{m.value}</div>
+              <div className="text-5xl font-black text-white mb-2 group-hover:scale-105 transition-transform duration-300 origin-left">{m.value}</div>
               <div className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-1">{m.label}</div>
               <div className="text-xs text-white/20">{m.sub}</div>
             </motion.div>
@@ -594,6 +603,7 @@ export default function Home() {
       <Clients />
       <Metrics />
       <Work />
+      <ProofOfWork />
       <Contact />
       <Footer />
     </main>
