@@ -186,22 +186,20 @@ function Ticker() {
 /* ── ABOUT ────────────────────────────────────────────────────────── */
 function About() {
   return (
-    <section className="py-32 px-10 bg-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-center">
-        <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
+    <section className="py-40 px-12 bg-[#f5f3ee]">
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">About</span>
-          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
-            I build marketing<br />systems that<br />scale.
+          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 mb-10 leading-[1.0] tracking-tighter">
+            I build marketing<br />systems that scale.
           </h2>
-        </motion.div>
-        <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }} transition={{ delay: 0.15 }}>
-          <p className="text-base text-black/45 leading-loose mb-5">
+          <p className="text-base text-black/45 leading-loose mb-4 max-w-2xl mx-auto">
             7 years solving hard growth challenges across startups, global B2B brands, government projects, healthcare, real estate, and e-commerce.
           </p>
-          <p className="text-base text-black/28 leading-loose mb-8">
+          <p className="text-base text-black/28 leading-loose mb-8 max-w-2xl mx-auto">
             Strong focus on ROI, AI-driven marketing, and Generative Engine Optimization (GEO) — the next frontier of search.
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-center">
             {["Performance Marketing","SEO & GEO","B2B Growth","AI Marketing","CRO","Analytics"].map(t => (
               <span key={t} className="text-xs text-black/35 border border-black/8 px-4 py-1.5 rounded-full bg-white/70">{t}</span>
             ))}
@@ -217,7 +215,7 @@ function Work() {
   return (
     <section id="work" className="py-40 px-12 bg-[#f5f3ee]/60">
       <div className="max-w-7xl mx-auto">
-        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
+        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16 text-center">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Experience</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             7 years.<br /><span className="text-black/15">No fluff.</span>
@@ -268,7 +266,7 @@ function Screenshots() {
   return (
     <section className="py-32 px-10 bg-white">
       <div className="max-w-7xl mx-auto">
-        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
+        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16 text-center">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Proof of Work</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Real Campaigns.<br /><span className="text-black/15">Real Numbers.</span>
@@ -355,7 +353,7 @@ function Results() {
   return (
     <section className="py-32 px-10 bg-white">
       <div className="max-w-7xl mx-auto">
-        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
+        <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16 text-center">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Results</span>
           <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Growth that<br /><span className="text-black/15">shows in data.</span>
