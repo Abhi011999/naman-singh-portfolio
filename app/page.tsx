@@ -40,7 +40,7 @@ const metrics = [
 /* ── HERO ─────────────────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
+    <section className="relative min-h-screen bg-[#f5f3ee] overflow-hidden flex items-center">
       {/* Subtle dot grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
@@ -94,7 +94,7 @@ function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1.1, ease: [0.16,1,0.3,1] }}
-            className="relative flex-shrink-0 flex flex-col items-center"
+            className="relative flex-shrink-0 flex flex-col items-center mx-auto"
             style={{ width: 340 }}>
 
             {/* Orbiting platform icons */}
@@ -215,7 +215,7 @@ function About() {
 /* ── WORK ─────────────────────────────────────────────────────────── */
 function Work() {
   return (
-    <section id="work" className="py-32 px-10 bg-white/40">
+    <section id="work" className="py-40 px-12 bg-[#f5f3ee]/60">
       <div className="max-w-7xl mx-auto">
         <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Experience</span>
@@ -313,7 +313,7 @@ function Skills() {
     return () => obs.disconnect();
   }, []);
   return (
-    <section ref={ref} className="py-32 px-10 bg-white/40">
+    <section ref={ref} className="py-40 px-12 bg-[#f5f3ee]/60">
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-start">
         <motion.div whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Skills</span>
@@ -384,7 +384,7 @@ function MarketersMind() {
     { title: "SEO after 4 months",     sub: "Ranking. Finally.",                      bars: [20, 30, 45, 65, 88] },
   ];
   return (
-    <section className="py-32 px-10 bg-white/40">
+    <section className="py-40 px-12 bg-[#f5f3ee]/60">
       <div className="max-w-7xl mx-auto">
         <motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">The Marketer&apos;s Mind</span>
@@ -470,10 +470,21 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="border-t border-black/5 py-8 px-10">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <span className="text-xs text-black/18 font-black tracking-widest uppercase">Naman Singh</span>
-        <span className="text-[10px] text-black/12">© 2026 · Performance Marketer · Bangalore</span>
+    <footer className="bg-black text-white">
+      <div className="max-w-7xl mx-auto px-12 py-20 text-center">
+        <div className="text-[10px] text-white/20 uppercase tracking-[0.4em] mb-4">Performance Marketer · Growth Strategist</div>
+        <h2 className="font-black text-white tracking-tighter leading-none mb-2" style={{ fontSize: "clamp(3rem,8vw,8rem)" }}>
+          NAMAN SINGH
+        </h2>
+        <div className="text-sm text-white/25 mb-10">Bangalore, India · Available for projects</div>
+        <div className="flex items-center justify-center gap-6 text-xs text-white/30">
+          <a href="mailto:Namanworks7@gmail.com" className="hover:text-white transition-colors">Namanworks7@gmail.com</a>
+          <span className="text-white/10">·</span>
+          <a href="tel:+919695624105" className="hover:text-white transition-colors">+91 96956 24105</a>
+          <span className="text-white/10">·</span>
+          <a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank" className="hover:text-white transition-colors">LinkedIn</a>
+        </div>
+        <div className="mt-12 pt-6 border-t border-white/5 text-[10px] text-white/12">© 2026</div>
       </div>
     </footer>
   );
@@ -481,7 +492,7 @@ function Footer() {
 
 export default function Home() {
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-[#f5f3ee] min-h-screen">
       <Hero />
       <Ticker />
       <About />
