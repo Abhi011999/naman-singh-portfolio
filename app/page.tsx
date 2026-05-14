@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Mail, Phone, MapPin, ArrowUpRight, TrendingUp, Globe2, BarChart3, Zap, Users, Target, ChevronDown } from "lucide-react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -158,65 +159,103 @@ function Hero() {
         }} />
       </div>
 
-      <motion.div style={{ y, opacity }} className="relative z-10 text-center max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 text-xs text-white/50 mb-8"
-        >
-          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full glow-dot" />
-          Available for new opportunities
-        </motion.div>
+      <motion.div style={{ y, opacity }} className="relative z-10 w-full max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left — text */}
+          <div className="text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 text-xs text-white/50 mb-8"
+            >
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full glow-dot" />
+              Available for new opportunities
+            </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-6xl md:text-8xl font-black tracking-tight text-white mb-4 leading-none"
-        >
-          Naman Singh
-        </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-6xl md:text-7xl font-black tracking-tight text-white mb-4 leading-none"
+            >
+              Naman<br />Singh
+            </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-xl md:text-2xl text-white/40 font-light mb-6"
-        >
-          Growth & Performance Marketing Leader
-        </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="text-lg md:text-xl text-white/40 font-light mb-6"
+            >
+              Growth & Performance Marketing Leader
+            </motion.p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="text-base text-white/25 max-w-xl mx-auto mb-10 leading-relaxed"
-        >
-          7+ years driving measurable growth for B2B brands, Government of India projects, and global clients through performance marketing, SEO, and AI-powered strategies.
-        </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="text-sm text-white/25 max-w-sm mb-10 leading-relaxed"
+            >
+              7+ years driving measurable growth for B2B brands, Government of India projects, and global clients through performance marketing, SEO, and AI-powered strategies.
+            </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="flex items-center justify-center gap-4 flex-wrap"
-        >
-          <a
-            href="mailto:Namanworks7@gmail.com"
-            className="group flex items-center gap-2 bg-white text-black text-sm font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-all duration-200"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="flex items-center gap-4 flex-wrap"
+            >
+              <a
+                href="mailto:Namanworks7@gmail.com"
+                className="group flex items-center gap-2 bg-white text-black text-sm font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-all duration-200"
+              >
+                Get in touch
+                <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+              <a
+                href="tel:+919695624105"
+                className="flex items-center gap-2 border border-white/10 text-white/60 text-sm px-6 py-3 rounded-full hover:border-white/30 hover:text-white transition-all duration-200"
+              >
+                <Phone size={13} />
+                +91 96956 24105
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right — photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.9, ease: "easeOut" }}
+            className="flex justify-center md:justify-end"
           >
-            Get in touch
-            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
-          <a
-            href="tel:+919695624105"
-            className="flex items-center gap-2 border border-white/10 text-white/60 text-sm px-6 py-3 rounded-full hover:border-white/30 hover:text-white transition-all duration-200"
-          >
-            <Phone size={13} />
-            +91 96956 24105
-          </a>
-        </motion.div>
+            <div className="relative w-72 h-72 md:w-80 md:h-80">
+              {/* Glow ring */}
+              <div className="absolute inset-0 rounded-full bg-white/5 blur-2xl scale-110" />
+              {/* Border ring */}
+              <div className="absolute inset-0 rounded-full border border-white/10" />
+              {/* Photo */}
+              <div className="relative w-full h-full rounded-full overflow-hidden border border-white/10">
+                <Image
+                  src="/naman-photo.jpg"
+                  alt="Naman Singh"
+                  fill
+                  className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
+                  priority
+                />
+              </div>
+              {/* Floating badge */}
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="absolute -bottom-3 -right-3 bg-black border border-white/10 px-3 py-2 rounded-xl text-xs text-white/60 backdrop-blur-sm"
+              >
+                📍 Bangalore, India
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
 
       <motion.div
