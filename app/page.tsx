@@ -116,8 +116,8 @@ function Ticker() {
 
 function About() {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-xl mx-auto text-center">
+    <section className="py-32 px-6 flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }}>
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">About</span>
           <h2 className="text-4xl md:text-6xl font-black text-black mt-4 mb-8 leading-[1.05] tracking-tighter">
@@ -141,8 +141,8 @@ function About() {
 
 function Work() {
   return (
-    <section id="work" className="py-32 px-6">
-      <div className="max-w-xl mx-auto">
+    <section id="work" className="py-32 px-6 flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="text-center mb-16">
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Experience</span>
           <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">7 years.<br /><span className="text-black/18">No fluff.</span></h2>
@@ -183,8 +183,8 @@ function Screenshots() {
     { src: "/ss5.jpg", label: "Performance Report",  rotate: "-1.5deg" },
   ];
   return (
-    <section className="py-32 px-6 overflow-hidden">
-      <div className="max-w-xl mx-auto text-center mb-20">
+    <section className="py-32 px-6 overflow-hidden w-full flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center mb-20">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }}>
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Proof of Work</span>
           <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">
@@ -229,8 +229,8 @@ function Skills() {
     return () => obs.disconnect();
   }, []);
   return (
-    <section ref={ref} className="py-32 px-6">
-      <div className="max-w-xl mx-auto">
+    <section ref={ref} className="py-32 px-6 flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="text-center mb-16">
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Skills</span>
           <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">What I&apos;m<br /><span className="text-black/18">great at.</span></h2>
@@ -264,8 +264,8 @@ function Skills() {
 
 function Results() {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-xl mx-auto">
+    <section className="py-32 px-6 flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="text-center mb-16">
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Results</span>
           <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">Growth that<br /><span className="text-black/18">shows in data.</span></h2>
@@ -292,8 +292,8 @@ function MarketersMind() {
     { title: "SEO after 4 months",     sub: "Ranking. Finally.",                      bars: [20, 30, 45, 65, 88] },
   ];
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-xl mx-auto text-center mb-16">
+    <section className="py-32 px-6 flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center mb-16">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }}>
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">The Marketer&apos;s Mind</span>
           <h2 className="text-4xl md:text-5xl font-black text-black mt-4 leading-[1.05] tracking-tighter">
@@ -301,7 +301,7 @@ function MarketersMind() {
           </h2>
         </motion.div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto w-full">
         {cards.map((c, i) => (
           <motion.div key={i}
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: i * 0.1 }}
@@ -327,8 +327,8 @@ function MarketersMind() {
 
 function Contact() {
   return (
-    <section className="py-40 px-6">
-      <div className="max-w-xl mx-auto text-center">
+    <section className="py-40 px-6 w-full flex flex-col items-center">
+      <div className="max-w-xl mx-auto w-full text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }}>
           <span className="text-xs text-black/22 uppercase tracking-[0.25em]">Contact</span>
           <h2 className="font-black text-black mt-4 mb-6 leading-[1.0] tracking-tighter" style={{ fontSize: "clamp(2.8rem,8vw,5.5rem)" }}>
