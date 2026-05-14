@@ -50,6 +50,20 @@ body {
 }
 .pulse { animation: pulse 2s ease-in-out infinite; }
 
+/* Platform icon orbit */
+@keyframes orbit {
+  from { transform: rotate(var(--start,0deg)) translateX(var(--r,160px)) rotate(calc(-1 * var(--start,0deg))); }
+  to   { transform: rotate(calc(var(--start,0deg) + 360deg)) translateX(var(--r,160px)) rotate(calc(-1 * (var(--start,0deg) + 360deg))); }
+}
+.orbit-icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  margin-top: -22px; margin-left: -22px;
+  animation: orbit var(--dur,12s) linear infinite;
+  animation-delay: var(--delay,0s);
+}
+
 /* Grain texture overlay */
 .grain::after {
   content: '';

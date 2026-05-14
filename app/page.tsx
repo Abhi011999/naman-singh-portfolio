@@ -61,93 +61,124 @@ function Nav() {
   );
 }
 
-// Hero — photo CENTERED, massive name split above/below, floating tags around it
+
+// Hero — centered photo, NAMAN above / SINGH below, platform icons orbiting around
 function Hero() {
+  const platforms = [
+    { src: "/google.svg",    alt: "Google",     r: "160px", start: "0deg",   dur: "14s" },
+    { src: "/facebook.svg",  alt: "Facebook",   r: "160px", start: "60deg",  dur: "14s" },
+    { src: "/instagram.svg", alt: "Instagram",  r: "160px", start: "120deg", dur: "14s" },
+    { src: "/linkedin.svg",  alt: "LinkedIn",   r: "160px", start: "180deg", dur: "14s" },
+    { src: "/youtube.svg",   alt: "YouTube",    r: "160px", start: "240deg", dur: "14s" },
+    { src: "/googleads.svg", alt: "Google Ads", r: "160px", start: "300deg", dur: "14s" },
+  ];
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#f5f4f0]">
-      {/* Huge ghost text top */}
-      <div className="absolute top-[12%] left-0 right-0 flex justify-center pointer-events-none select-none overflow-hidden">
-        <span className="text-[18vw] font-black text-black/[0.04] tracking-tighter leading-none whitespace-nowrap">GROWTH</span>
+      {/* Ghost background word */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[22vw] font-black text-black/[0.028] tracking-tighter leading-none">GROWTH</span>
       </div>
 
-      {/* Center: photo */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-8">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-5xl mx-auto px-6 py-24">
 
-        {/* Name top half */}
-        <motion.div initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} transition={{delay:0.2,duration:0.9,ease:[0.16,1,0.3,1]}}
-          className="text-center mb-[-1rem] relative z-20">
-          <h1 className="font-black tracking-tighter text-black leading-none" style={{fontSize:"clamp(4rem,14vw,11rem)"}}>
-            NAMAN
-          </h1>
-        </motion.div>
+        {/* NAMAN — top */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="font-black tracking-tighter text-black leading-none relative z-20"
+          style={{ fontSize: "clamp(3.8rem,13vw,10rem)", marginBottom: "-16px" }}
+        >
+          NAMAN
+        </motion.h1>
 
-        {/* Photo centered */}
-        <motion.div initial={{opacity:0,scale:0.88}} animate={{opacity:1,scale:1}} transition={{delay:0.35,duration:1,ease:[0.16,1,0.3,1]}}
-          className="relative z-10 w-52 md:w-72 aspect-[3/4] rounded-2xl overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.18)] border-4 border-white">
-          <Image src="/naman-photo.jpg" alt="Naman Singh" fill className="object-cover object-top" priority/>
-          {/* Subtle color wash */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"/>
-        </motion.div>
+        {/* Photo + orbit ring */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10"
+          style={{ width: 240, height: 240 }}
+        >
+          {/* Dashed orbit ring */}
+          <div
+            className="absolute rounded-full border border-dashed border-black/12 pointer-events-none"
+            style={{ inset: "-40px" }}
+          />
 
-        {/* Name bottom half */}
-        <motion.div initial={{opacity:0,y:-40}} animate={{opacity:1,y:0}} transition={{delay:0.2,duration:0.9,ease:[0.16,1,0.3,1]}}
-          className="text-center mt-[-1rem] relative z-20">
-          <h1 className="font-black tracking-tighter text-black leading-none" style={{fontSize:"clamp(4rem,14vw,11rem)"}}>
-            SINGH
-          </h1>
-        </motion.div>
+          {/* Platform icons orbiting */}
+          {platforms.map((p) => (
+            <div
+              key={p.alt}
+              className="orbit-icon"
+              style={{ "--r": p.r, "--start": p.start, "--dur": p.dur, "--delay": "0s" } as React.CSSProperties}
+            >
+              <div className="w-11 h-11 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.10)] border border-black/5 flex items-center justify-center p-2.5">
+                <img src={p.src} alt={p.alt} className="w-full h-full object-contain" />
+              </div>
+            </div>
+          ))}
 
-        {/* Floating tag: role */}
-        <motion.div initial={{opacity:0,x:-40}} animate={{opacity:1,x:0}} transition={{delay:0.7}}
-          className="absolute left-[4%] md:left-[10%] top-[35%] bg-white rounded-full px-4 py-2 shadow-lg border border-black/5 float-a"
-          style={{"--rot":"-3deg"} as React.CSSProperties}>
-          <span className="text-xs font-semibold text-black/60">Head of Marketing</span>
-        </motion.div>
-
-        {/* Floating tag: years */}
-        <motion.div initial={{opacity:0,x:40}} animate={{opacity:1,x:0}} transition={{delay:0.8}}
-          className="absolute right-[4%] md:right-[10%] top-[30%] bg-black text-white rounded-full px-4 py-2 shadow-lg float-b"
-          style={{"--rot":"2deg"} as React.CSSProperties}>
-          <span className="text-xs font-bold">7+ Years</span>
-        </motion.div>
-
-        {/* Floating tag: location */}
-        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.9}}
-          className="absolute right-[6%] md:right-[14%] bottom-[22%] bg-white rounded-xl px-3 py-2 shadow-md border border-black/5 float-a"
-          style={{"--rot":"3deg"} as React.CSSProperties}>
-          <div className="flex items-center gap-1.5">
-            <MapPin size={10} className="text-black/40"/>
-            <span className="text-[10px] text-black/50">Bangalore</span>
+          {/* Photo circle */}
+          <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-[0_20px_60px_rgba(0,0,0,0.16)]">
+            <Image src="/naman-photo.jpg" alt="Naman Singh" fill className="object-cover object-top" priority />
           </div>
         </motion.div>
 
-        {/* Floating tag: B2B */}
-        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.0}}
-          className="absolute left-[5%] md:left-[12%] bottom-[25%] bg-white/80 backdrop-blur rounded-xl px-3 py-2 shadow-md border border-black/5 float-b"
-          style={{"--rot":"-2deg"} as React.CSSProperties}>
-          <span className="text-[10px] font-semibold text-black/45">B2B · Global · Govt of India</span>
-        </motion.div>
+        {/* SINGH — bottom */}
+        <motion.h1
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="font-black tracking-tighter text-black leading-none relative z-20"
+          style={{ fontSize: "clamp(3.8rem,13vw,10rem)", marginTop: "-16px" }}
+        >
+          SINGH
+        </motion.h1>
 
-        {/* CTAs below */}
-        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.1}}
-          className="flex flex-wrap gap-3 justify-center mt-8 relative z-20">
+        {/* Role + tagline */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.75 }}
+          className="text-xs md:text-sm text-black/38 text-center mt-5 mb-1 tracking-wide"
+        >
+          Growth Marketer · Performance Marketing · SEO · GEO · AI-driven Growth
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.85 }}
+          className="text-xs text-black/22 italic text-center mb-8 max-w-sm"
+        >
+          &ldquo;Calm mind. Sharp strategy. The best growth comes when you stop chasing and start thinking.&rdquo;
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.95 }}
+          className="flex flex-wrap gap-3 justify-center"
+        >
           <a href="#work" className="inline-flex items-center gap-2 bg-black text-white text-xs font-semibold px-6 py-3 rounded-full hover:bg-black/75 transition-all">
-            View Work <ArrowUpRight size={11}/>
+            View Work <ArrowUpRight size={11} />
           </a>
-          <a href="/naman-resume.pdf" target="_blank" className="inline-flex items-center gap-2 bg-white border border-black/10 text-black/55 text-xs px-6 py-3 rounded-full hover:border-black/25 hover:text-black transition-all shadow-sm">
-            <Download size={11}/> Resume
+          <a href="/naman-resume.pdf" target="_blank" className="inline-flex items-center gap-2 bg-white border border-black/10 text-black/50 text-xs px-6 py-3 rounded-full hover:border-black/25 hover:text-black transition-all shadow-sm">
+            <Download size={11} /> Resume
           </a>
-          <a href="mailto:Namanworks7@gmail.com" className="inline-flex items-center gap-2 bg-white border border-black/10 text-black/55 text-xs px-6 py-3 rounded-full hover:border-black/25 hover:text-black transition-all shadow-sm">
-            <Mail size={11}/> Let&apos;s Build Growth
+          <a href="mailto:Namanworks7@gmail.com" className="inline-flex items-center gap-2 bg-white border border-black/10 text-black/50 text-xs px-6 py-3 rounded-full hover:border-black/25 hover:text-black transition-all shadow-sm">
+            <Mail size={11} /> Let&apos;s Build Growth
           </a>
         </motion.div>
       </div>
 
       {/* Scroll cue */}
-      <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.5}}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <motion.div animate={{scaleY:[0.3,1,0.3]}} transition={{repeat:Infinity,duration:2,ease:"easeInOut"}}
-          className="w-px h-10 bg-gradient-to-b from-transparent via-black/20 to-transparent"/>
+        <motion.div animate={{ scaleY: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className="w-px h-10 bg-gradient-to-b from-transparent via-black/20 to-transparent" />
       </motion.div>
     </section>
   );
