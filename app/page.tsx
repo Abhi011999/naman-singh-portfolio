@@ -163,7 +163,7 @@ function About() {
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-center">
         <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.05 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">About</span>
-          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
+          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             I build marketing<br />systems that<br />scale.
           </h2>
         </motion.div>
@@ -192,7 +192,7 @@ function Work() {
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Experience</span>
-          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
+          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             7 years.<br /><span className="text-black/15">No fluff.</span>
           </h2>
         </motion.div>
@@ -243,23 +243,23 @@ function Screenshots() {
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Proof of Work</span>
-          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
+          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Real Campaigns.<br /><span className="text-black/15">Real Numbers.</span>
           </h2>
           <p className="text-sm text-black/28 mt-4 max-w-sm leading-loose">Live dashboards. Not mockups.</p>
         </motion.div>
-        <div className="flex flex-wrap gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {shots.map((s, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.04, rotate: "0deg", zIndex: 10 }}
-              className="relative cursor-pointer group flex-shrink-0"
-              style={{ rotate: s.rotate, width: 300 } as React.CSSProperties}>
-              <div className="relative h-48 rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-black/5">
+              whileHover={{ scale: 1.03, zIndex: 10 }}
+              className="relative cursor-pointer group"
+              style={{ rotate: s.rotate } as React.CSSProperties}>
+              <div className="relative h-56 rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-black/5">
                 <Image src={s.src} alt={s.label} fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
                 <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <span className="text-xs text-white font-semibold">{s.label}</span>
+                  <span className="text-sm text-white font-semibold">{s.label}</span>
                 </div>
               </div>
             </motion.div>
@@ -330,7 +330,7 @@ function Results() {
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Results</span>
-          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
+          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Growth that<br /><span className="text-black/15">shows in data.</span>
           </h2>
         </motion.div>
@@ -361,7 +361,7 @@ function MarketersMind() {
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} className="mb-16">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">The Marketer&apos;s Mind</span>
-          <h2 className="text-5xl md:text-6xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
+          <h2 className="text-5xl md:text-7xl font-black text-black mt-4 leading-[1.0] tracking-tighter">
             Always thinking<br /><span className="text-black/15">in growth.</span>
           </h2>
         </motion.div>
@@ -371,13 +371,13 @@ function MarketersMind() {
               className="border border-black/6 rounded-2xl p-7 bg-white/70 hover:bg-white transition-colors">
               <p className="text-sm font-bold text-black mb-1.5">{c.title}</p>
               <p className="text-xs text-black/30 mb-6 leading-loose">{c.sub}</p>
-              <div className="flex items-end gap-1.5 h-12">
+              <div className="flex items-end gap-1.5 h-14">
                 {c.bars.map((h, j) => (
                   <motion.div key={j}
                     initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true, amount: 0.05 }}
                     transition={{ delay: i * 0.1 + j * 0.06, duration: 0.5, ease: "easeOut" }}
-                    className="flex-1 rounded-sm bg-black/10 origin-bottom"
-                    style={{ height: `${h}%` }} />
+                    className="flex-1 rounded-sm origin-bottom"
+                    style={{ height: `${h}%`, background: "linear-gradient(to top, #111, #666)" }} />
                 ))}
               </div>
             </motion.div>
