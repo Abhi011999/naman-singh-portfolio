@@ -116,14 +116,23 @@ function Ticker() {
 
 function About() {
   return (
-    <section className="py-28 px-6">
-      <div className="max-w-2xl mx-auto text-center">
+    <section className="py-32 px-6">
+      <div className="max-w-xl mx-auto text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">About</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-3 mb-6 leading-tight tracking-tighter">I build marketing<br />systems that scale.</h2>
-          <p className="text-sm text-black/45 leading-relaxed mb-3">7 years solving hard growth challenges across startups, global B2B brands, government projects, healthcare, real estate, and e-commerce.</p>
-          <p className="text-sm text-black/28 leading-relaxed">Strong focus on ROI, AI-driven marketing, and Generative Engine Optimization (GEO) — the next frontier of search.</p>
-          <div className="flex items-center justify-center gap-2 mt-5"><MapPin size={10} className="text-black/20" /><span className="text-xs text-black/25">Bangalore, India</span></div>
+          <h2 className="text-4xl md:text-6xl font-black text-black mt-4 mb-8 leading-[1.05] tracking-tighter">
+            I build marketing<br />systems that scale.
+          </h2>
+          <p className="text-sm text-black/45 leading-loose mb-4 max-w-md mx-auto">
+            7 years solving hard growth challenges across startups, global B2B brands, government projects, healthcare, real estate, and e-commerce.
+          </p>
+          <p className="text-sm text-black/28 leading-loose max-w-md mx-auto">
+            Strong focus on ROI, AI-driven marketing, and Generative Engine Optimization (GEO) — the next frontier of search.
+          </p>
+          <div className="flex items-center justify-center gap-2 mt-6">
+            <MapPin size={10} className="text-black/20" />
+            <span className="text-xs text-black/25">Bangalore, India</span>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -132,35 +141,33 @@ function About() {
 
 function Work() {
   return (
-    <section id="work" className="py-24 px-6">
-      <div className="max-w-2xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+    <section id="work" className="py-32 px-6">
+      <div className="max-w-xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Experience</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">7 years.<br /><span className="text-black/18">No fluff.</span></h2>
+          <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">7 years.<br /><span className="text-black/18">No fluff.</span></h2>
         </motion.div>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {jobs.map((j, i) => (
             <motion.div key={j.co} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              className="border border-black/6 rounded-2xl p-6 bg-white/60 hover:bg-white transition-colors">
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <div className="text-sm font-black text-black">{j.co}</div>
-                  <div className="text-xs text-black/35">{j.role} <span className="text-black/18">· {j.period}</span></div>
-                </div>
+              className="border border-black/6 rounded-2xl p-7 bg-white/60 hover:bg-white transition-colors">
+              <div className="mb-3">
+                <div className="text-base font-black text-black">{j.co}</div>
+                <div className="text-xs text-black/35 mt-0.5">{j.role} <span className="text-black/18">· {j.period}</span></div>
               </div>
-              <p className="text-xs text-black/30 leading-relaxed mb-3">{j.desc}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {j.tags.map(t => <span key={t} className="text-[9px] text-black/35 border border-black/8 px-2.5 py-1 rounded-full">{t}</span>)}
+              <p className="text-sm text-black/30 leading-loose mb-4">{j.desc}</p>
+              <div className="flex flex-wrap gap-2">
+                {j.tags.map(t => <span key={t} className="text-[9px] text-black/35 border border-black/8 px-3 py-1 rounded-full">{t}</span>)}
               </div>
             </motion.div>
           ))}
         </div>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
-          className="mt-3 border border-black/8 rounded-2xl p-6 bg-black text-white">
-          <div className="text-[9px] text-white/30 uppercase tracking-widest mb-1">Featured Project</div>
-          <div className="text-base font-black mb-1">Government LPG Campaign — Tier 2 India</div>
-          <div className="text-xs text-white/35">Reached 2-3 million people through regional mobile-first campaigns</div>
-          <div className="text-5xl font-black text-white/10 mt-2 leading-none">2-3M</div>
+          className="mt-4 border border-black/8 rounded-2xl p-7 bg-black text-white">
+          <div className="text-[9px] text-white/30 uppercase tracking-widest mb-2">Featured Project</div>
+          <div className="text-lg font-black mb-1">Government LPG Campaign — Tier 2 India</div>
+          <div className="text-sm text-white/35 leading-loose">Reached 2-3 million people through regional mobile-first campaigns</div>
+          <div className="text-6xl font-black text-white/8 mt-3 leading-none">2-3M</div>
         </motion.div>
       </div>
     </section>
@@ -176,25 +183,28 @@ function Screenshots() {
     { src: "/ss5.jpg", label: "Performance Report",  rotate: "-1.5deg" },
   ];
   return (
-    <section className="py-24 px-6 overflow-hidden">
-      <div className="max-w-2xl mx-auto text-center mb-14">
+    <section className="py-32 px-6 overflow-hidden">
+      <div className="max-w-xl mx-auto text-center mb-20">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Proof of Work</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">Real Campaigns.<br /><span className="text-black/18">Real Numbers.</span></h2>
+          <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">
+            Real Campaigns.<br /><span className="text-black/18">Real Numbers.</span>
+          </h2>
+          <p className="text-sm text-black/28 mt-5 leading-loose">Live dashboards from active campaigns. Not mockups.</p>
         </motion.div>
       </div>
-      <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
+      <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
         {shots.map((s, i) => (
           <motion.div key={i}
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-            whileHover={{ scale: 1.04, rotate: "0deg", zIndex: 10 }}
-            className="relative cursor-pointer group"
-            style={{ rotate: s.rotate, width: 280 } as React.CSSProperties}>
-            <div className="relative h-44 rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.10)] border border-black/5">
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}
+            whileHover={{ scale: 1.05, rotate: "0deg", zIndex: 10 }}
+            className="relative cursor-pointer group flex-shrink-0"
+            style={{ rotate: s.rotate, width: 300 } as React.CSSProperties}>
+            <div className="relative h-48 rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-black/5">
               <Image src={s.src} alt={s.label} fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-[10px] text-white font-semibold">{s.label}</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <span className="text-xs text-white font-semibold">{s.label}</span>
               </div>
             </div>
           </motion.div>
@@ -219,17 +229,17 @@ function Skills() {
     return () => obs.disconnect();
   }, []);
   return (
-    <section ref={ref} className="py-24 px-6">
-      <div className="max-w-2xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+    <section ref={ref} className="py-32 px-6">
+      <div className="max-w-xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Skills</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">What I am<br /><span className="text-black/18">great at.</span></h2>
+          <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">What I&apos;m<br /><span className="text-black/18">great at.</span></h2>
         </motion.div>
-        <div className="space-y-5">
+        <div className="space-y-6">
           {skills.map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-              <div className="flex justify-between mb-1.5">
-                <span className="text-xs text-black/45">{s.label}</span>
+              <div className="flex justify-between mb-2">
+                <span className="text-sm text-black/50">{s.label}</span>
                 <span className="text-xs text-black/25 font-mono">{s.pct}%</span>
               </div>
               <div className="h-px bg-black/6 relative overflow-visible rounded-full">
@@ -239,8 +249,8 @@ function Skills() {
             </motion.div>
           ))}
         </div>
-        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="mt-10 text-center">
-          <p className="text-[10px] text-black/18 uppercase tracking-widest mb-3">Platforms</p>
+        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="mt-14 text-center">
+          <p className="text-[10px] text-black/18 uppercase tracking-widest mb-4">Platforms</p>
           <div className="flex flex-wrap justify-center gap-2">
             {["Google Ads","Meta Ads","LinkedIn Ads","GA4","Search Console","Tag Manager","Looker Studio","WordPress","HubSpot","Shopify"].map(p => (
               <span key={p} className="text-[10px] text-black/30 border border-black/6 px-3 py-1.5 rounded-full bg-white/60">{p}</span>
@@ -254,17 +264,17 @@ function Skills() {
 
 function Results() {
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-2xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+    <section className="py-32 px-6">
+      <div className="max-w-xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Results</span>
-          <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">Growth that<br /><span className="text-black/18">shows in data.</span></h2>
+          <h2 className="text-4xl md:text-6xl font-black text-black mt-4 leading-[1.05] tracking-tighter">Growth that<br /><span className="text-black/18">shows in data.</span></h2>
         </motion.div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-black/5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-black/5 rounded-2xl overflow-hidden">
           {metrics.map((m, i) => (
             <motion.div key={m.l} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-              className="bg-[#f7f5f0] p-6 text-center group hover:bg-white transition-colors">
-              <div className="text-4xl font-black text-black mb-1">{m.n}</div>
+              className="bg-[#f7f5f0] p-8 text-center group hover:bg-white transition-colors">
+              <div className="text-4xl font-black text-black mb-2">{m.n}</div>
               <div className="text-[10px] text-black/30 uppercase tracking-widest">{m.l}</div>
             </motion.div>
           ))}
@@ -274,25 +284,42 @@ function Results() {
   );
 }
 
-function Memes() {
-  const icons = ["☕","📈","💸","🌱"];
+function MarketersMind() {
+  const cards = [
+    { title: "Client: Cut CAC by 50%", sub: "Me: opens 17 tabs, survives on coffee", bars: [40, 65, 55, 80, 95] },
+    { title: "ROAS spikes at 2 AM",    sub: "Scaling campaigns in pyjamas",          bars: [30, 50, 70, 60, 90] },
+    { title: "Google Ads at 11 PM",    sub: "\"Limited by budget\" again",            bars: [80, 60, 40, 70, 55] },
+    { title: "SEO after 4 months",     sub: "Ranking. Finally.",                      bars: [20, 30, 45, 65, 88] },
+  ];
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-2xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-          <span className="text-xs text-black/25 uppercase tracking-[0.25em]">Memes</span>
-          <h2 className="text-4xl font-black text-black mt-3 leading-tight tracking-tighter">Marketer brain.<br /><span className="text-black/18">Never off.</span></h2>
+    <section className="py-32 px-6">
+      <div className="max-w-xl mx-auto text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <span className="text-xs text-black/25 uppercase tracking-[0.25em]">The Marketer&apos;s Mind</span>
+          <h2 className="text-4xl md:text-5xl font-black text-black mt-4 leading-[1.05] tracking-tighter">
+            Always thinking<br /><span className="text-black/18">in growth.</span>
+          </h2>
         </motion.div>
-        <div className="grid grid-cols-2 gap-px bg-black/5">
-          {memes.map((m, i) => (
-            <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-              whileHover={{ scale: 1.02 }} className="bg-[#f7f5f0] p-6 text-center hover:bg-white transition-colors cursor-default">
-              <div className="text-4xl mb-4">{icons[i]}</div>
-              <p className="text-xs text-black/35 leading-relaxed mb-3">{m.t}</p>
-              <span className="inline-block border border-black/8 rounded-full px-3 py-1 text-[10px] text-black/28 bg-white/60">{m.p}</span>
-            </motion.div>
-          ))}
-        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto">
+        {cards.map((c, i) => (
+          <motion.div key={i}
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+            className="border border-black/6 rounded-2xl p-6 bg-white/60 hover:bg-white transition-colors">
+            <p className="text-sm font-semibold text-black mb-1">{c.title}</p>
+            <p className="text-xs text-black/30 mb-5">{c.sub}</p>
+            {/* Mini bar chart */}
+            <div className="flex items-end gap-1.5 h-10">
+              {c.bars.map((h, j) => (
+                <motion.div key={j}
+                  initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 + j * 0.06, duration: 0.4, ease: "easeOut" }}
+                  className="flex-1 rounded-sm bg-black/10 origin-bottom"
+                  style={{ height: `${h}%` }} />
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
@@ -300,32 +327,51 @@ function Memes() {
 
 function Contact() {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-lg mx-auto text-center">
+    <section className="py-40 px-6">
+      <div className="max-w-xl mx-auto text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <span className="text-xs text-black/22 uppercase tracking-[0.2em]">Contact</span>
-          <h2 className="font-black text-black mt-2 mb-4 leading-none tracking-tighter" style={{ fontSize: "clamp(2.5rem,8vw,5rem)" }}>
-            Lets Build<br />Something<br />That Scales.
+          <span className="text-xs text-black/22 uppercase tracking-[0.25em]">Contact</span>
+          <h2 className="font-black text-black mt-4 mb-6 leading-[1.0] tracking-tighter" style={{ fontSize: "clamp(2.8rem,8vw,5.5rem)" }}>
+            Let&apos;s Build<br />Something<br />That Scales.
           </h2>
-          <p className="text-sm text-black/28 mb-8 leading-relaxed">B2B, startup, or government project — reach out.</p>
-          <div className="space-y-3 text-left">
-            <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{ scale: 1.015 }} className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/60 hover:bg-white transition-all rounded-2xl">
-              <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center flex-shrink-0"><Mail size={13} className="text-white" /></div>
-              <div><div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Email</div><div className="text-sm font-semibold text-black">Namanworks7@gmail.com</div></div>
-              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors" />
+          <p className="text-sm text-black/30 mb-12 leading-loose max-w-sm mx-auto">
+            B2B brand, startup, or government initiative — if you need growth that actually moves the needle, reach out.
+          </p>
+          <div className="space-y-3 max-w-sm mx-auto text-left">
+            <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.98 }}
+              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/20 bg-white/60 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center flex-shrink-0"><Mail size={14} className="text-white" /></div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Email</div>
+                <div className="text-sm font-semibold text-black truncate">Namanworks7@gmail.com</div>
+              </div>
+              <ArrowUpRight size={14} className="text-black/15 group-hover:text-black/40 transition-colors flex-shrink-0" />
             </motion.a>
-            <motion.a href="tel:+919695624105" whileHover={{ scale: 1.015 }} className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/60 hover:bg-white transition-all rounded-2xl">
-              <div className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><Phone size={13} className="text-black/45" /></div>
-              <div><div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Phone</div><div className="text-sm font-semibold text-black">+91 96956 24105</div></div>
-              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors" />
+            <motion.a href="tel:+919695624105" whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.98 }}
+              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/20 bg-white/60 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><Phone size={14} className="text-black/45" /></div>
+              <div className="flex-1">
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">Phone</div>
+                <div className="text-sm font-semibold text-black">+91 96956 24105</div>
+              </div>
+              <ArrowUpRight size={14} className="text-black/15 group-hover:text-black/40 transition-colors flex-shrink-0" />
             </motion.a>
-            <motion.a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank" whileHover={{ scale: 1.015 }} className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/18 bg-white/60 hover:bg-white transition-all rounded-2xl">
-              <div className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0"><img src="/linkedin.svg" alt="LinkedIn" className="w-5 h-5" /></div>
-              <div><div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">LinkedIn</div><div className="text-sm font-semibold text-black">linkedin.com/in/naman-singh</div></div>
-              <ArrowUpRight size={13} className="ml-auto text-black/12 group-hover:text-black/35 transition-colors" />
+            <motion.a href="https://www.linkedin.com/in/naman-singh-b87b2920a/" target="_blank" rel="noopener" whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.98 }}
+              className="group flex items-center gap-4 p-5 border border-black/8 hover:border-black/20 bg-white/60 hover:bg-white transition-all rounded-2xl shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-full bg-black/6 flex items-center justify-center flex-shrink-0">
+                <img src="/linkedin.svg" alt="LinkedIn" className="w-5 h-5" />
+              </div>
+              <div className="flex-1">
+                <div className="text-[9px] text-black/22 uppercase tracking-widest mb-0.5">LinkedIn</div>
+                <div className="text-sm font-semibold text-black">linkedin.com/in/naman-singh</div>
+              </div>
+              <ArrowUpRight size={14} className="text-black/15 group-hover:text-black/40 transition-colors flex-shrink-0" />
             </motion.a>
           </div>
-          <div className="flex items-center justify-center gap-2 mt-6"><MapPin size={10} className="text-black/22" /><span className="text-xs text-black/22">Bangalore, India</span></div>
+          <div className="flex items-center justify-center gap-2 mt-8">
+            <MapPin size={10} className="text-black/20" />
+            <span className="text-xs text-black/22">Bangalore, India</span>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -353,7 +399,7 @@ export default function Home() {
       <Screenshots />
       <Skills />
       <Results />
-      <Memes />
+      <MarketersMind />
       <Contact />
       <Footer />
     </main>
