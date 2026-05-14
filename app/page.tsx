@@ -114,7 +114,7 @@ function About() {
   return (
     <section id="about" className="py-24 px-6 bg-white">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={TRANS}>
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">About</span>
           <h2 className="text-4xl md:text-5xl font-black text-black mt-3 mb-6 leading-tight tracking-tighter">
             I build growth<br />systems that scale.
@@ -130,7 +130,7 @@ function About() {
             <span className="text-xs text-black/30">Bangalore, India</span>
           </div>
         </motion.div>
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={{ delay:0.15 }}>
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }} transition={{ delay:0.15 }}>
           <div className="grid grid-cols-2 gap-3">
             {[{n:"8.4×",l:"Best ROAS"},{n:"14",l:"Countries"},{n:"42%",l:"CAC Reduction"},{n:"200+",l:"Campaigns"}].map(m => (
               <div key={m.l} className="border border-black/6 rounded-2xl p-6 bg-[#faf9f6]">
@@ -154,13 +154,13 @@ function Work() {
   return (
     <section id="work" className="py-24 px-6 bg-[#faf9f6]">
       <div className="max-w-6xl mx-auto">
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={TRANS} className="mb-12">
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }} className="mb-12">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Experience</span>
           <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">7 years. No fluff.</h2>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-5 mb-5">
           {jobs.map((j,i) => (
-            <motion.div key={j.co} variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={{ delay:i*0.1 }}
+            <motion.div key={j.co} initial={{ opacity:1 }} animate={{ opacity:1 }} transition={{ delay:i*0.1 }}
               className="bg-white border border-black/6 rounded-2xl p-7 hover:shadow-md transition-all">
               <div className="font-black text-black text-base mb-0.5">{j.co}</div>
               <div className="text-xs text-black/35 mb-4">{j.role} · {j.period}</div>
@@ -171,7 +171,7 @@ function Work() {
             </motion.div>
           ))}
         </div>
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={TRANS}
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }}
           className="bg-black text-white rounded-2xl p-8 md:p-10 grid md:grid-cols-2 gap-6 items-center">
           <div>
             <div className="text-[9px] text-white/30 uppercase tracking-widest mb-2">Featured Project</div>
@@ -199,14 +199,14 @@ function Campaigns() {
   return (
     <section className="py-24 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={TRANS} className="mb-12">
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }} className="mb-12">
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Proof of Work</span>
           <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">Real campaigns.<br />Real numbers.</h2>
           <p className="text-sm text-black/30 mt-2">Live dashboards. Not mockups.</p>
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {shots.map((s,i) => (
-            <motion.div key={i} variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={{ delay:i*0.08 }}
+            <motion.div key={i} initial={{ opacity:1 }} animate={{ opacity:1 }} transition={{ delay:i*0.08 }}
               whileHover={{ y:-4 }}
               className="group relative rounded-2xl overflow-hidden border border-black/5 aspect-video cursor-pointer shadow-sm">
               <Image src={s.src} alt={s.label} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -226,7 +226,7 @@ function Contact() {
   return (
     <section id="contact" className="py-24 px-6 bg-[#faf9f6]">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={TRANS}>
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }}>
           <span className="text-[10px] text-black/25 uppercase tracking-[0.3em]">Contact</span>
           <h2 className="text-4xl md:text-5xl font-black text-black mt-3 leading-tight tracking-tighter">
             Let&apos;s build<br />something<br />that scales.
@@ -235,7 +235,7 @@ function Contact() {
             B2B, startup, or government project — reach out and let&apos;s talk growth.
           </p>
         </motion.div>
-        <motion.div variants={FADE} initial="hidden" whileInView="show" viewport={{ once:true }} transition={{ delay:0.15 }} className="space-y-3">
+        <motion.div initial={{ opacity:1 }} animate={{ opacity:1 }} transition={{ delay:0.15 }} className="space-y-3">
           <motion.a href="mailto:Namanworks7@gmail.com" whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }}
             className="flex items-center gap-4 p-5 bg-black text-white rounded-2xl group">
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0"><Mail size={14} className="text-white" /></div>
