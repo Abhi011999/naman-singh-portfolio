@@ -133,7 +133,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref);
   return (
-    <div ref={ref} className="reveal"
+    <div ref={ref} className="reveal w-full"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(28px)",
@@ -150,7 +150,7 @@ function SectionHeader({
 }: { label: string; title: React.ReactNode; center?: boolean }) {
   return (
     <Reveal>
-      <div className={center ? "text-center" : ""}>
+      <div className={`w-full ${center ? "text-center" : ""}`}>
         <span className="text-[10px] text-indigo-400/40 uppercase tracking-[0.3em]">{label}</span>
         <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-12 tracking-tighter leading-tight">
           {title}
