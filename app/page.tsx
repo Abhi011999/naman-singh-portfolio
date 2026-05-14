@@ -40,100 +40,129 @@ const metrics = [
 /* ── HERO ─────────────────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="relative min-h-screen bg-[#f7f5f0] overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.045]"
-        style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "36px 36px" }} />
+    <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
+      {/* Subtle dot grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
-      {/* 3-col desktop grid */}
-      <div className="relative z-10 max-w-7xl mx-auto px-10 min-h-screen grid grid-cols-[1fr_auto_1fr] gap-12 items-center">
-
-        {/* LEFT — name + bio + CTAs */}
-        <div className="flex flex-col justify-center py-20">
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.8 }}>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-6 h-px bg-black/20" />
-              <span className="text-[10px] text-black/30 uppercase tracking-[0.3em]">Portfolio 2026</span>
-            </div>
-            <h1 className="font-black text-black tracking-tighter leading-[0.88] mb-6" style={{ fontSize: "clamp(4rem,7vw,7rem)" }}>
-              NAMAN<br />SINGH
-            </h1>
-            <p className="text-lg font-semibold text-black/50 mb-2">Performance Marketer</p>
-            <p className="text-lg font-semibold text-black/30 mb-5">Growth Strategist</p>
-            <p className="text-sm text-black/30 leading-loose max-w-sm mb-8">
-              Building brands through scalable digital systems — across SEO, paid media, AI marketing, and high-ROI campaigns.
-            </p>
-            <div className="flex flex-col gap-3 mb-10">
-              <a href="#work" className="inline-flex items-center gap-2 bg-black text-white text-xs font-bold px-6 py-3 rounded-full w-fit hover:bg-black/75 transition-all">
-                View Work <ArrowUpRight size={12} />
-              </a>
-              <a href="/naman-resume.pdf" target="_blank" className="inline-flex items-center gap-2 border border-black/12 text-black/40 text-xs px-6 py-3 rounded-full w-fit hover:border-black/25 hover:text-black transition-all">
-                <Download size={12} /> Download Resume
-              </a>
-            </div>
-            <div className="grid grid-cols-2 gap-4 max-w-xs">
-              {[{ n:"7+",l:"Years Exp." },{ n:"50+",l:"Clients" },{ n:"200+",l:"Campaigns" },{ n:"14",l:"Countries" }].map(m => (
-                <div key={m.l} className="border border-black/6 rounded-xl p-4 bg-white/50">
-                  <div className="text-2xl font-black text-black">{m.n}</div>
-                  <div className="text-[9px] text-black/28 uppercase tracking-widest mt-0.5">{m.l}</div>
-                </div>
-              ))}
-            </div>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-10 py-20">
+        {/* Top label row */}
+        <div className="flex items-center justify-between mb-12">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+            className="flex items-center gap-3">
+            <div className="w-6 h-px bg-black/20" />
+            <span className="text-[10px] text-black/30 uppercase tracking-[0.35em]">Portfolio 2026</span>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+            className="flex items-center gap-3">
+            <span className="text-[10px] text-black/30 uppercase tracking-[0.35em]">Bangalore, India</span>
+            <div className="w-6 h-px bg-black/20" />
           </motion.div>
         </div>
 
-        {/* CENTER — photo */}
-        <motion.div initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.35, duration: 1, ease: [0.16,1,0.3,1] }}
-          className="relative flex-shrink-0 flex flex-col items-center py-20">
-          <motion.span initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="font-black text-black tracking-tighter leading-none mb-3 select-none" style={{ fontSize: "clamp(2.5rem,5vw,5rem)", letterSpacing: "-0.04em" }}>
-            NAMAN
-          </motion.span>
-          <div className="relative" style={{ width: 260, height: 340 }}>
-            <div className="absolute rounded-full border border-dashed border-black/10 pointer-events-none"
-              style={{ inset: "-65px", borderRadius: "50%" }} />
-            {platforms.map((p, i) => (
-              <div key={i} className="orbit-icon"
-                style={{ "--r": p.r, "--start": p.start, "--dur": p.dur, "--delay": "0s", top: "50%", left: "50%" } as React.CSSProperties}>
-                <div className="w-10 h-10 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.10)] border border-black/5 flex items-center justify-center p-2.5">
-                  <img src={p.src} alt={p.alt} className="w-full h-full object-contain" />
-                </div>
-              </div>
-            ))}
-            <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.13)]">
-              <Image src="/naman-photo.jpg" alt="Naman Singh" fill className="object-cover object-top" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-            </div>
-          </div>
-          <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="font-black text-black tracking-tighter leading-none mt-3 select-none" style={{ fontSize: "clamp(2.5rem,5vw,5rem)", letterSpacing: "-0.04em" }}>
-            SINGH
-          </motion.span>
-        </motion.div>
+        {/* Main hero grid: LEFT TEXT | CENTER PHOTO | RIGHT TEXT */}
+        <div className="grid grid-cols-[1fr_auto_1fr] gap-8 items-center">
 
-        {/* RIGHT — tags */}
-        <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
-          className="flex flex-col gap-3 py-20">
-          <div className="flex items-center gap-2 mb-4">
-            <MapPin size={11} className="text-black/25" />
-            <span className="text-xs text-black/30">Bangalore, India</span>
-          </div>
-          {["Google Ads","Meta Ads","SEO & GEO","LinkedIn Ads","GA4 Analytics","AI Marketing","B2B Global","Govt of India"].map((tag, i) => (
-            <motion.div key={tag} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.07 }}
-              className="border border-black/6 rounded-full px-5 py-2.5 bg-white/60 text-xs text-black/45 font-medium w-fit hover:border-black/15 hover:text-black transition-all">
-              {tag}
+          {/* LEFT */}
+          <div className="flex flex-col items-end text-right">
+            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.16,1,0.3,1] }}>
+              <h1 className="font-black text-black tracking-tighter leading-[0.85]" style={{ fontSize: "clamp(4rem,8vw,8rem)" }}>
+                NAMAN
+              </h1>
             </motion.div>
-          ))}
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.3 }}
-            className="mt-4 border border-black/10 rounded-2xl p-5 bg-black text-white w-fit max-w-[220px]">
-            <div className="text-[8px] text-white/35 uppercase tracking-widest mb-1">Featured</div>
-            <div className="text-sm font-black leading-tight">Govt of India<br />Campaign</div>
-            <div className="text-3xl font-black text-white/15 mt-1">2-3M</div>
-            <div className="text-[9px] text-white/30">people reached</div>
+            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}
+              className="mt-6 space-y-2">
+              <p className="text-lg font-semibold text-black/50">Performance Marketer</p>
+              <p className="text-base text-black/30">Growth Strategist</p>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }}
+              className="mt-6 text-sm text-black/25 leading-loose max-w-xs">
+              Building brands through scalable digital systems — SEO, paid media, AI marketing, high-ROI campaigns.
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
+              className="mt-8 flex flex-col gap-3 items-end">
+              <a href="#work" className="inline-flex items-center gap-2 bg-black text-white text-xs font-bold px-6 py-3 rounded-full hover:bg-black/75 transition-all">
+                View Work <ArrowUpRight size={12} />
+              </a>
+              <a href="/naman-resume.pdf" target="_blank" className="inline-flex items-center gap-2 border border-black/12 text-black/40 text-xs px-6 py-3 rounded-full hover:border-black/25 hover:text-black transition-all">
+                <Download size={12} /> Resume
+              </a>
+            </motion.div>
+          </div>
+
+          {/* CENTER — cutout photo */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 1.1, ease: [0.16,1,0.3,1] }}
+            className="relative flex-shrink-0 flex flex-col items-center"
+            style={{ width: 340 }}>
+
+            {/* Orbiting platform icons */}
+            <div className="relative" style={{ width: 340, height: 500 }}>
+              {/* Orbit ring */}
+              <div className="absolute rounded-full border border-dashed border-black/8 pointer-events-none"
+                style={{ inset: "-55px", borderRadius: "50%" }} />
+
+              {platforms.map((p, i) => (
+                <div key={i} className="orbit-icon"
+                  style={{ "--r": p.r, "--start": p.start, "--dur": p.dur, "--delay": "0s", top: "50%", left: "50%" } as React.CSSProperties}>
+                  <div className="w-11 h-11 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.10)] border border-black/6 flex items-center justify-center p-2.5">
+                    <img src={p.src} alt={p.alt} className="w-full h-full object-contain" />
+                  </div>
+                </div>
+              ))}
+
+              {/* Photo cutout — transparent PNG floats naturally on white bg */}
+              <div className="absolute inset-0 flex items-end justify-center">
+                <img
+                  src="/naman-cutout.png"
+                  alt="Naman Singh"
+                  className="h-full w-auto object-contain object-bottom"
+                  style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.12))" }}
+                />
+              </div>
+            </div>
           </motion.div>
+
+          {/* RIGHT */}
+          <div className="flex flex-col items-start text-left">
+            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.16,1,0.3,1] }}>
+              <h1 className="font-black text-black tracking-tighter leading-[0.85]" style={{ fontSize: "clamp(4rem,8vw,8rem)" }}>
+                SINGH
+              </h1>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
+              className="mt-6 space-y-2.5">
+              {["Google Ads","Meta Ads","SEO & GEO","LinkedIn Ads","GA4","AI Marketing"].map((tag, i) => (
+                <motion.div key={tag} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 + i * 0.08 }}
+                  className="border border-black/8 rounded-full px-4 py-1.5 text-xs text-black/40 font-medium bg-black/[0.02] w-fit hover:border-black/18 hover:text-black/60 transition-all">
+                  {tag}
+                </motion.div>
+              ))}
+            </motion.div>
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.3 }}
+              className="mt-8 border border-black/8 rounded-2xl p-5 bg-black text-white w-fit">
+              <div className="text-[8px] text-white/30 uppercase tracking-widest mb-1">Featured</div>
+              <div className="text-sm font-black leading-tight">Govt of India<br />Campaign</div>
+              <div className="text-4xl font-black text-white/12 mt-1 leading-none">2-3M</div>
+              <div className="text-[9px] text-white/30 mt-0.5">people reached</div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Bottom stats row */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}
+          className="mt-16 pt-8 border-t border-black/5 grid grid-cols-4 gap-8">
+          {[{ n:"7+",l:"Years Experience" },{ n:"50+",l:"Global Clients" },{ n:"200+",l:"Campaigns Managed" },{ n:"14",l:"Countries" }].map(m => (
+            <div key={m.l} className="text-center">
+              <div className="text-3xl font-black text-black">{m.n}</div>
+              <div className="text-[9px] text-black/25 uppercase tracking-widest mt-1">{m.l}</div>
+            </div>
+          ))}
         </motion.div>
       </div>
 
+      {/* Scroll cue */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
         <span className="text-[8px] text-black/18 uppercase tracking-[0.3em]">scroll</span>
@@ -143,8 +172,6 @@ function Hero() {
     </section>
   );
 }
-
-/* ── TICKER ───────────────────────────────────────────────────────── */
 function Ticker() {
   const items = Array(2).fill(["Performance Marketing","·","Google Ads","·","Meta Ads","·","SEO & GEO","·","LinkedIn","·","GA4","·","AI Marketing","·","Govt of India","·","14 Countries","·","200+ Campaigns","·"]).flat();
   return (

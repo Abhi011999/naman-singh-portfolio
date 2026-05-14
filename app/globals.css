@@ -4,14 +4,14 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: #f7f5f0;
+  background: #ffffff;
   color: #111;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
 }
 
 ::-webkit-scrollbar { width: 2px; }
-::-webkit-scrollbar-track { background: #f7f5f0; }
+::-webkit-scrollbar-track { background: #ffffff; }
 ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 2px; }
 ::selection { background: rgba(99,102,241,0.15); }
 
