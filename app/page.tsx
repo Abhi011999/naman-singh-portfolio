@@ -116,14 +116,14 @@ function AboutMe() {
         <Reveal delay={100}>
           <div className="glass p-8 sm:p-10 mb-10">
             <p className="text-sm sm:text-base text-white/50 leading-relaxed mb-4">
-              I&apos;m Naman Singh — a growth marketer who enjoys solving growth challenges and building
+              I&apos;m Naman Singh, a growth marketer who enjoys solving growth challenges and building
               marketing systems that create real business impact. Over the last 7 years, I&apos;ve worked in
               fast-paced agency environments managing campaigns for startups, global clients,
               government projects, healthcare brands, real estate companies, and B2B businesses.
             </p>
             <p className="text-sm sm:text-base text-white/40 leading-relaxed">
               I&apos;ve handled everything from strategy and execution to optimization, reporting, and
-              scaling — working with clients across India, the US, and the UK.
+              scaling, working with clients across India, the US, and the UK.
             </p>
           </div>
         </Reveal>
@@ -166,7 +166,7 @@ function AboutMe() {
           <h3 className="text-xl font-black text-white/80 mb-8">Career at a Glance</h3>
           <div className="relative pl-8 border-l border-white/10 space-y-8">
             {[
-              { year: "2019", title: "Marketing Executive", sub: "Comm8 Digital · Started the journey — lead gen, social, ads" },
+              { year: "2019", title: "Marketing Executive", sub: "Comm8 Digital · Started the journey: lead gen, social, ads" },
               { year: "2020", title: "Digital Marketing Manager", sub: "Vinra Group · Performance marketing, SEO, CRO, WordPress" },
               { year: "2022", title: "Head of Marketing", sub: "Social Musketeers · End-to-end growth across 10+ industries" },
             ].map((t, i) => (
@@ -186,7 +186,7 @@ function AboutMe() {
             <p className="text-sm italic text-yellow-300/60">
               &ldquo;POV: Scaling campaigns at 2 AM because ROAS suddenly jumped.&rdquo;
             </p>
-            <p className="text-[10px] text-white/20 mt-1">— A Tuesday, probably</p>
+            <p className="text-[10px] text-white/20 mt-1">A Tuesday, probably</p>
           </div>
         </Reveal>
       </div>
@@ -326,7 +326,7 @@ function Hero() {
             </div>
 
             <p className="fade-up fade-up-3 text-sm text-white/25 leading-relaxed max-w-sm mb-8">
-              Building brands through scalable digital systems — Google Ads, Meta, SEO, AI marketing &amp; high-ROI campaigns.
+              Building brands through scalable digital systems: Google Ads, Meta, SEO, AI marketing &amp; high-ROI campaigns.
             </p>
 
             <div className="fade-up fade-up-4">
@@ -475,7 +475,7 @@ function Experience() {
             <p className="text-base sm:text-lg font-black gradient-text">
               Real business growth, not just metrics.
             </p>
-            <p className="text-xs text-white/25 mt-2">From government awareness campaigns to SaaS pipelines — growth is the constant.</p>
+            <p className="text-xs text-white/25 mt-2">From government awareness campaigns to SaaS pipelines. Growth is the constant.</p>
           </div>
         </Reveal>
 
@@ -538,7 +538,7 @@ function FeaturedProject() {
             <h4 className="font-bold text-sm text-white/70 mb-3">Why This Project Mattered</h4>
             <p className="text-sm text-white/35 leading-relaxed italic">
               This project felt bigger than marketing. Seeing how campaigns could genuinely help families
-              improve their daily lives — accessing clean cooking fuel — was deeply rewarding. It&apos;s a
+              improve their daily lives, accessing clean cooking fuel. It was deeply rewarding and a
               reminder that marketing, done right, creates real human impact.
             </p>
           </div>
@@ -641,7 +641,7 @@ function AIFuture() {
             <Reveal>
               <p className="text-sm text-white/40 leading-relaxed mb-8">
                 I believe AI will completely change how marketing works over the next few years. Marketing teams that
-                embrace AI tools will move faster, optimize better, and create more human experiences — not less.
+                embrace AI tools will move faster, optimize better, and create more human experiences, not less.
               </p>
             </Reveal>
 
@@ -713,6 +713,39 @@ function AIFuture() {
 }
 
 /* ══ PROOF OF WORK — Glass floating screenshots ══════════ */
+function ScreenshotCard({ src, index, visibleGrid }: { src: string; index: number; visibleGrid: boolean }) {
+  const [tapped, setTapped] = useState(false);
+  return (
+    <div
+      className={`ss-float group relative rounded-2xl overflow-hidden aspect-video cursor-pointer ${visibleGrid ? "visible" : ""} ${tapped ? "tapped" : ""}`}
+      style={{
+        "--rot": `${(index % 2 === 0 ? 1 : -1) * (1 + index * 0.5)}deg`,
+        animationDelay: `${index * 0.6}s`,
+        background: "rgba(255,255,255,0.02)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
+      } as React.CSSProperties}
+      onClick={() => setTapped(t => !t)}
+    >
+      <Image src={src} alt={`Campaign ${index + 1}`} fill
+        className="object-cover transition-opacity duration-500 scale-[1.02] opacity-0 group-hover:opacity-90 ss-img" />
+      <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-100 group-hover:opacity-0 ss-hint">
+        <div className="text-center">
+          <div className="w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-2"
+            style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)" }}>
+            <span className="text-indigo-300/60 text-xs">↗</span>
+          </div>
+          <span className="text-[10px] text-white/20 hidden md:inline">hover to reveal</span>
+          <span className="text-[10px] text-white/20 md:hidden">tap to reveal</span>
+        </div>
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ss-overlay" />
+    </div>
+  );
+}
+
 function ProofOfWork() {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref);
@@ -724,35 +757,16 @@ function ProofOfWork() {
           <h2 className="text-4xl sm:text-5xl font-black text-white/90 mt-2 mb-2 tracking-tighter leading-tight">
             Real campaigns.<br /><span className="gradient-text">Real numbers.</span>
           </h2>
-          <p className="text-xs text-white/20 mb-12">Live dashboards — not mockups. Hover to peek.</p>
+          <p className="text-xs text-white/20 mb-12">
+            Live dashboards, not mockups.{" "}
+            <span className="hidden md:inline">Hover to peek.</span>
+            <span className="md:hidden">Tap to reveal.</span>
+          </p>
         </Reveal>
 
         <div ref={ref} className="grid grid-cols-2 md:grid-cols-3 gap-5">
           {["/ss1.jpg","/ss2.jpg","/ss3.jpg","/ss4.jpg","/ss5.jpg"].map((src, i) => (
-            <div key={i}
-              className={`ss-float group relative rounded-2xl overflow-hidden aspect-video cursor-pointer ${visible ? "visible" : ""}`}
-              style={{
-                "--rot": `${(i % 2 === 0 ? 1 : -1) * (1 + i * 0.5)}deg`,
-                animationDelay: `${i * 0.6}s`,
-                background: "rgba(255,255,255,0.02)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
-              } as React.CSSProperties}>
-              <Image src={src} alt={`Campaign ${i+1}`} fill
-                className="object-cover opacity-0 group-hover:opacity-90 transition-opacity duration-500 scale-[1.02]" />
-              <div className="absolute inset-0 flex items-center justify-center opacity-100 group-hover:opacity-0 transition-opacity duration-300">
-                <div className="text-center">
-                  <div className="w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-2"
-                    style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)" }}>
-                    <span className="text-indigo-300/60 text-xs">↗</span>
-                  </div>
-                  <span className="text-[10px] text-white/20">hover to reveal</span>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
+            <ScreenshotCard key={i} src={src} index={i} visibleGrid={visible} />
           ))}
           <div className={`ss-float rounded-2xl aspect-video flex flex-col items-center justify-center gap-2 ${visible ? "visible" : ""}`}
             style={{
@@ -819,7 +833,7 @@ function Contact() {
 
         <Reveal delay={450}>
           <p className="mt-8 text-[11px] text-white/15 italic">
-            &ldquo;Marketing would be easy if attribution worked perfectly.&rdquo; — me, every Monday
+            &ldquo;Marketing would be easy if attribution worked perfectly.&rdquo; Me, every Monday
           </p>
         </Reveal>
       </div>
@@ -845,7 +859,7 @@ function Footer() {
           <span className="text-xs text-white/20">Bengaluru, India</span>
         </div>
         <div className="text-[9px] text-white/10 uppercase tracking-[0.4em] mb-2">
-          Reach out — let&apos;s make something great together
+          Reach out, let&apos;s make something great together
         </div>
         <div className="text-xs font-black text-white/10 tracking-widest">NAMAN SINGH © 2026</div>
       </div>

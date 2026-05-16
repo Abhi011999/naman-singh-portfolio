@@ -102,6 +102,11 @@
   }
   .ss-float.visible { opacity: 1; }
 
+  /* Tap-to-reveal on mobile */
+  .ss-float.tapped .ss-img   { opacity: 0.9 !important; }
+  .ss-float.tapped .ss-hint  { opacity: 0 !important; }
+  .ss-float.tapped .ss-overlay { opacity: 1 !important; }
+
   /* ── Quirky marquee ──────────────────────── */
   .marquee-track {
     animation: marquee 25s linear infinite;
